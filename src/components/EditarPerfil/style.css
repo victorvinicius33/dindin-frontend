@@ -1,0 +1,93 @@
+.container-editar-perfil {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: fit-content;
+
+    background: rgba(61, 61, 61, 0.48);
+
+    position: absolute;
+    z-index: 2;
+}
+
+.div-form-perfil {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 79px;
+    margin-bottom: 66px;
+
+    border-radius: 20px;
+    padding: 62px;
+    
+    background: #FFFFFF;
+}
+
+.titulo-editar-perfil {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 48px;
+}
+
+.btn-close {
+    cursor: pointer;
+}
+
+.form-editar-perfil {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-editar-perfil label {
+    font-weight: 500;
+    font-size: 24px;
+    color: #484848;
+    margin-bottom: 9px;
+}
+
+.form-editar-perfil input, .form-editar-perfil select{
+    width: 485px;
+    height: 64px;
+
+    margin-bottom: 26px;
+    padding: 0 15px;
+
+    border-radius: 5px;
+    border: 1px solid #484848;
+
+    
+    font-size: 18px;
+    color: #484848;
+}
+
+.enviar-perfil-editado {
+    all: unset;
+    cursor: pointer;
+    width: 232px;
+    text-align: center;
+    align-self: center;
+
+    margin-top: 17px;
+    padding: 12px 0;
+
+    border-radius: 5px;
+
+    background-color: #7978D9;
+    color: #FFFFFF;
+
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.erro-editar-perfil {
+    font-size: 12px;
+    color: #ff0000;
+}

@@ -1,0 +1,102 @@
+.container-cadastro {
+  background: linear-gradient(180deg, rgba(5, 237, 227, 0.5) 0%, rgba(100, 95, 251, 0.5) 100%, rgba(100, 95, 251, 0.5) 100%), url(../../assets/background.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: fit-content;
+  padding-bottom: 95px;
+
+  font-family: 'Rubik', sans-serif;
+}
+
+.logo-cadastro {
+  display: flex;
+  align-items: center;
+  margin-left: 100px;
+  padding-top: 41px;
+  color: white;
+}
+
+.logo-cadastro img {
+  width: 45px;
+  height: 45px;
+  margin-right: 8px;
+}
+
+.main-cadastro {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.btn-cadastrar {
+  all: unset;
+  font-weight: 700;
+  font-size: 14px;
+  text-align: center;
+
+  padding: 17px 0;
+  border-radius: 5px;
+
+  background-color: #7978D9;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.cadastro {
+  display: flex;
+  flex-direction: column;
+  background-color: #FFFFFF;
+  width: 513px;
+  padding: 0 32px;
+}
+
+.cadastro h2 {
+  font-weight: 500;
+  font-size: 28px;
+
+  align-self: center;
+  margin: 60px 0 48px 0;
+  color: #7978D9;
+}
+
+.cadastro form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8px;
+} 
+
+.cadastro label {
+  font-weight: 400;
+  font-size: 18px;
+  margin-bottom: 8px;
+  color: #484848;
+}
+
+.cadastro input {
+  height: 63px;
+  margin-bottom: 31px;
+  border: 1px solid #555555;
+  border-radius: 5px;
+  padding-left: 15px;
+
+  font-size: 20px;
+}
+
+.cadastro button {
+  margin-top: 7px;
+  margin-bottom: 8px;
+}
+
+.cadastro a {
+  margin-bottom: 57px;
+  font-weight: 700;
+  color: #7978D9;
+  align-self: center;
+  cursor: pointer;
+}
+
+.mensagem-erro-cadastro {
+  color: #ff0000;
+  font-size: 12px;
+}

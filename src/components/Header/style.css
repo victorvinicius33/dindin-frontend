@@ -1,0 +1,60 @@
+.container-header {
+    display: flex;
+    justify-content: space-between;
+    
+    padding-top: 42px;
+    
+    height: 224px;
+    
+    background: linear-gradient(90.23deg, #05EDE3 0.02%, #645FFB 99.63%);
+
+    position: relative;
+}
+
+.logo-dindin {
+    margin-left: 100px;
+}
+
+.logo-dindin div{
+    display: flex;
+    align-items: center;
+}
+
+.logo-dindin-img {
+    width: 35px;
+    height: 35px;
+
+    margin-right: 13px;
+}
+
+.logo-text {
+    color:#FFFFFF;
+}
+
+.logged-info div {
+    display: flex;
+    align-items: center;
+    margin-right: 100px;
+}
+
+.profile-logo {
+    cursor: pointer;
+    width: 41.82px;
+}
+
+.profile-name {
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 17px;
+    
+    margin-left: 7.09px;
+
+    color: #FFFFFF;
+}
+
+.logout-logo {
+    width: 22px;
+    margin-left: 16px;
+}

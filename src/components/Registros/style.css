@@ -1,0 +1,120 @@
+.registro-container {
+    display: flex;
+    align-items: center;
+
+    min-height: 58px;
+    padding-left: 28px;
+
+    border-bottom: 1px solid #E0E0E0;
+}
+
+.registro-container > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+
+    font-size: 14px;
+}
+
+.container-data {
+    width: 110px;
+}
+
+.registro-data {
+    width: 100%;
+    text-align: left;
+
+    font-weight: 700;
+}
+
+.registro-dia {
+    width: 170px;
+}
+
+.registro-descricao {
+    width: 200px;
+}
+
+.registro-descricao span {
+    width: 90%;
+    overflow-wrap: break-word;
+}
+
+.registro-categoria {
+    width: 140px;
+}
+
+.registro-valor {
+    font-weight: 700;
+    width: 170px;
+}
+
+.registro-opcoes{
+    width: 120px;
+    gap: 15px;
+
+    position: relative;
+}
+
+.registro-opcoes img {
+    cursor: pointer;
+}
+
+.balao-apagar {
+    display: none;
+    justify-content: center;
+
+    top: 25px;
+    right: 28px;
+    position: absolute;
+    z-index: 1;
+}
+
+.balao-apagar p {
+    font-size: 10px;
+    margin-bottom: 4px;
+}
+
+.opcoes-apagar {
+    display: flex;
+    flex-direction: column;
+
+    top: 13px;
+
+    position: absolute;
+}
+
+.opcoes-apagar div{
+    height: 25px;
+}
+
+.opcoes-apagar  button{
+    font-size: 9px;
+    font-weight: 500;
+
+    border: none;
+    border-radius: 4px;
+    margin: 4px;
+
+    color: #FFFFFF;
+    padding: 2px 10px;
+    cursor: pointer;
+}
+
+.blue-color {
+    background-color: #3A9FF1;
+}
+
+.red-color {
+    background-color: #FF576B;;
+}
+
+.tipo-entrada {
+    color: #645FFB;
+}
+
+.tipo-saida{
+    color: #FA8C10;
+}

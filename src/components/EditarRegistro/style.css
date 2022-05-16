@@ -1,0 +1,133 @@
+.container-editar-registro {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: fit-content;
+
+    background: rgba(61, 61, 61, 0.48);
+
+    position: absolute;
+    top: -120px;
+    left: 0;
+    right: 0;
+    z-index: 3;
+}
+
+.div-formulario {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 79px;
+    margin-bottom: 66px;
+
+    border-radius: 20px;
+    padding: 62px;
+    
+    background: #FFFFFF;
+}
+
+.titulo-editar-registro {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-close {
+    cursor: pointer;
+}
+
+.selecao-tipo-editar {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.selecoes-editar{
+    width: 245px;
+    text-align: center;
+
+    padding: 15px;
+    margin-top: 52px;
+    margin-bottom: 38px;
+    
+    border-radius: 10px;
+
+    color: #FFFFFF;
+
+    font-weight: 700;
+    font-size: 14px;
+    background-color: #B9B9B9;;
+}
+
+.selecao-entrada-editar {
+    background-color: #3A9FF1;
+}
+
+.selecao-saida-editar{
+    background-color:#FF576B;
+}
+
+.form-editar-registro {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-editar-registro label {
+    font-weight: 500;
+    font-size: 24px;
+    color: #484848;
+    margin-bottom: 9px;
+}
+
+.form-editar-registro input, .form-editar-registro select{
+    width: 485px;
+    height: 64px;
+
+    margin-bottom: 26px;
+    padding: 0 15px;
+
+    border-radius: 5px;
+    border: 1px solid #484848;
+
+    
+    font-size: 18px;
+    color: #484848;
+}
+
+.enviar-registro-editado {
+    all: unset;
+    cursor: pointer;
+    width: 232px;
+    text-align: center;
+    align-self: center;
+
+    margin-top: 17px;
+    padding: 12px 0;
+
+    border-radius: 5px;
+
+    background-color: #7978D9;
+    color: #FFFFFF;
+
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.erro-editar-registro {
+    font-size: 12px;
+    color: #ff0000;
+}
+
+.form-editar-registro select {
+    appearance: none;
+    background-image: url('../../assets/arrow-select.svg');
+    background-repeat: no-repeat;
+    background-position: calc(100% - 19px);
+}
