@@ -1,0 +1,126 @@
+.sign-up {
+    width: 100%;
+    min-height: 100vh;
+
+    padding-bottom: 95px;
+
+    background: linear-gradient(
+            180deg,
+            rgba(5, 237, 227, 0.5) 0%,
+            rgba(100, 95, 251, 0.5) 100%,
+            rgba(100, 95, 251, 0.5) 100%
+        ),
+        url(../../assets/background.svg);
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    font-family: "Rubik", sans-serif;
+}
+
+.sign-up__header {
+    padding: 41px 0 62px 100px;
+}
+
+.sign-up__main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sign-up__btn {
+    all: unset;
+    font-weight: 700;
+    font-size: 1.4rem;
+    text-align: center;
+
+    padding: 17px 0;
+    border-radius: 5px;
+
+    background-color: #7978d9;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.sign-up__form {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    width: 513px;
+    padding: 0 32px;
+}
+
+.sign-up__form h2 {
+    font-weight: 500;
+    font-size: 2.8rem;
+
+    align-self: center;
+    margin: 60px 0 48px 0;
+    color: #7978d9;
+}
+
+.sign-up__form form {
+    display: flex;
+    flex-direction: column;
+
+    position: relative;
+
+    margin-bottom: 8px;
+}
+
+.sign-up__form label {
+    margin-bottom: 8px;
+
+    font-weight: 400;
+    font-size: 1.8rem;
+
+    color: #484848;
+}
+
+.sign-up__form input {
+    height: 63px;
+
+    margin-bottom: 31px;
+
+    padding-left: 15px;
+
+    border: 1px solid #555555;
+    border-radius: 5px;
+
+    font-size: 20px;
+}
+
+.sign-up__btn {
+    margin-top: 7px;
+    margin-bottom: 8px;
+}
+
+.sign-up__form a {
+    cursor: pointer;
+
+    margin-bottom: 57px;
+
+    align-self: center;
+
+    font-weight: 700;
+
+    color: #7978d9;
+}
+
+.sign-up__error-message {
+    position: absolute;
+    bottom: 70px;
+
+    font-size: 12px;
+
+    color: #ff0000;
+}
+
+@media screen and (max-width: 768px) {
+  .sign-up__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 40px 0 40px 0;
+  }
+}
