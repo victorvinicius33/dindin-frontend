@@ -1,0 +1,158 @@
+.sign-in {
+  min-height: 100vh;
+  
+  font-family: 'Rubik', sans-serif;
+
+  background: linear-gradient(
+      180deg,
+      rgba(5, 237, 227, 0.5) 0%,
+      rgba(100, 95, 251, 0.5) 100%,
+      rgba(100, 95, 251, 0.5) 100%
+    ),
+    url(../../assets/background.svg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.sign-in__logo {
+  display: flex;
+  align-items: center;
+
+  padding-top: 20px;
+  padding-left: 50px;
+
+  color: white;
+}
+
+.sign-in__logo img {
+  width: 45px;
+  height: 45px;
+
+  margin-right: 8px;
+}
+
+.sign-in__main {
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10rem;
+
+  padding: 5rem;
+}
+
+.sign-in__left {
+  width: 50%;
+
+  color: #ffffff;
+}
+
+.sign-in__left h1 {
+  font-size: 5.2rem;
+  margin-bottom: 33px;
+}
+
+.sign-in__left span {
+  color: #7978d9;
+}
+
+.sign-in__left p {
+  font-weight: 400;
+  font-size: 2.8rem;
+  margin-bottom: 43px;
+}
+
+.sign-in__left button,
+.sign-in__right button {
+  all: unset;
+  cursor: pointer;
+
+  padding: 17px 0;
+  border-radius: 5px;
+
+  font-weight: 700;
+  font-size: 1.4rem;
+  text-align: center;
+
+  background-color: #7978d9;
+  color: #ffffff;
+  opacity: 1;
+}
+
+.sign-in__left button:hover,
+.sign-in__right button:hover {
+  opacity: 0.9;
+}
+
+.sign-in__left button {
+  width: 284px;
+}
+
+.sign-in__right {
+  width: 50%;
+
+  display: flex;
+  flex-direction: column;
+
+  position: relative;
+
+  padding: 0 32px;
+
+  border-radius: 8px;
+
+  background-color: #ffffff;
+}
+
+.sign-in__right h2 {
+  font-weight: 500;
+  font-size: 2.8rem;
+
+  align-self: center;
+  margin: 60px 0 48px 0;
+  color: #7978d9;
+}
+
+.sign-in__right form {
+  display: flex;
+  flex-direction: column;
+}
+
+.sign-in__right label {
+  font-weight: 400;
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+  color: #484848;
+}
+
+.sign-in__right input {
+  height: 63px;
+  margin-bottom: 31px;
+  border: 1px solid #555555;
+  border-radius: 5px;
+  padding-left: 15px;
+
+  font-size: 2rem;
+}
+
+.sign-in__right button {
+  margin-top: 42px;
+  margin-bottom: 49px;
+}
+
+.sign-in__error-message {
+  position: absolute;
+  bottom: 14rem;
+  left: 3.2rem;
+
+  color: #ff0000;
+  font-size: 1.2rem;
+}
+
+@media screen and (max-width: 1024px) {
+  .sign-in {
+    font-size: 50%;
+  }
+}
