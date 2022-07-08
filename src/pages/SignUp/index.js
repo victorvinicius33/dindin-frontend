@@ -1,8 +1,8 @@
 import './style.css';
-import { Link, resolvePath, useNavigate } from 'react-router-dom';
-import api from '../../services/api';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import CompanyLogo from '../../components/CompanyLogo';
+import api from '../../services/api';
+import Logo from '../../assets/logo.svg';
 
 function SignUp() {
   const [name, setName] = useState('');
@@ -40,13 +40,17 @@ function SignUp() {
   function formValidation() {
     if (!name) {
       return "O campo 'Nome' é obrigatório.";
-    } else if (!email) {
+    }
+    if (!email) {
       return "O campo 'Email' é obrigatório.";
-    } else if (!email.includes('@' && '.')) {
+    }
+    if (!email.includes('@' && '.')) {
       return 'Insira um email válido';
-    } else if (!password) {
+    }
+    if (!password) {
       return "O campo 'Senha' é obrigatório.";
-    } else if (password !== confirmPassword) {
+    }
+    if (password !== confirmPassword) {
       return 'Senhas não conferem.';
     }
 
@@ -61,58 +65,54 @@ function SignUp() {
   }
 
   return (
-    <div className='sign-up'>
-      <header className='sign-up__header'>
-        <CompanyLogo />
-      </header>
+    <div className="sign-up">
+      <img className="sign-up__header" src={Logo} alt="logo" />
 
-      <main className='sign-up__main'>
-        <div className='sign-up__form'>
-          <h2>Cadastre-se</h2>
+      <div className="sign-up__form">
+        <h2>Cadastre-se</h2>
 
-          <form onSubmit={handleSubmit}>
-            <label htmlFor='name'>Nome</label>
-            <input
-              id='name'
-              type='text'
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="name">Nome</label>
+          <input
+            id="name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
 
-            <label htmlFor='email'>Email</label>
-            <input
-              id='email'
-              type='email'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+          <label htmlFor="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-            <label htmlFor='password'>Senha</label>
-            <input
-              id='password'
-              type='password'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+          <label htmlFor="password">Senha</label>
+          <input
+            id="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-            <label htmlFor='confirm-password'>Confirmação de senha</label>
-            <input
-              id='confirm-password'
-              type='password'
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
+          <label htmlFor="confirm-password">Confirmação de senha</label>
+          <input
+            id="confirm-password"
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
 
-            {error && <p className='sign-up__error-message'>{error}</p>}
+          {error && <p className="sign-up__error-message">{error}</p>}
 
-            <button className='sign-up__btn'>Cadastrar</button>
-          </form>
+          <button>Cadastrar</button>
+        </form>
 
-          <Link to='/' style={{ textDecoration: 'none' }}>
-            Já tem cadastro? Clique aqui!
-          </Link>
-        </div>
-      </main>
+        <Link to="/" style={{ textDecoration: 'none' }}>
+          Já tem cadastro? Clique aqui!
+        </Link>
+      </div>
     </div>
   );
 }

@@ -1,5 +1,8 @@
 .sign-in {
   min-height: 100vh;
+
+  display: flex;
+  align-items: center;
   
   font-family: 'Rubik', sans-serif;
 
@@ -16,20 +19,9 @@
 }
 
 .sign-in__logo {
-  display: flex;
-  align-items: center;
-
-  padding-top: 20px;
-  padding-left: 50px;
-
-  color: white;
-}
-
-.sign-in__logo img {
-  width: 45px;
-  height: 45px;
-
-  margin-right: 8px;
+  position: absolute;
+  top: 20px;
+  left: 50px;
 }
 
 .sign-in__main {
@@ -41,7 +33,7 @@
 
   gap: 10rem;
 
-  padding: 5rem;
+  padding: 0 5rem;
 }
 
 .sign-in__left {
@@ -66,7 +58,7 @@
 }
 
 .sign-in__left button,
-.sign-in__right button {
+.sign-in__btn-submit {
   all: unset;
   cursor: pointer;
 
@@ -99,7 +91,7 @@
 
   position: relative;
 
-  padding: 0 32px;
+  padding: 48px 32px;
 
   border-radius: 8px;
 
@@ -111,7 +103,7 @@
   font-size: 2.8rem;
 
   align-self: center;
-  margin: 60px 0 48px 0;
+  margin-bottom: 48px;
   color: #7978d9;
 }
 
@@ -129,30 +121,91 @@
 
 .sign-in__right input {
   height: 63px;
+
   margin-bottom: 31px;
-  border: 1px solid #555555;
-  border-radius: 5px;
   padding-left: 15px;
 
   font-size: 2rem;
+  
+  border: 1px solid #555555;
+  border-radius: 5px;
+
+  color: #484848;
 }
 
-.sign-in__right button {
+.sign-in__btn-submit {
   margin-top: 42px;
-  margin-bottom: 49px;
 }
 
 .sign-in__error-message {
   position: absolute;
-  bottom: 14rem;
-  left: 3.2rem;
+  bottom: 140px;
+  left: 32px;
 
   color: #ff0000;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
+}
+
+.sign-in__link-to-sign-up {
+  display: none;
+
+  padding-top: 10px;
+  
+  font-size: 1.6rem;
+  text-align: center;
+
+  font-weight: 700;
+
+  color: #7978d9;
 }
 
 @media screen and (max-width: 1024px) {
-  .sign-in {
+  html {
     font-size: 50%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .sign-in {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .sign-in__logo {
+    width: 200px;
+    top: 20px;
+    left: auto;
+  }
+
+  .sign-in__left {
+    display: none;
+  }
+
+  .sign-in__right {
+    width: 100%;
+
+    padding: 32px 32px;
+  }
+
+  .sign-in__right input{
+    margin-bottom: 15px;
+  } 
+
+  .sign-in__btn-submit {
+    margin-top: 20px;
+  }
+
+  .sign-in__link-to-sign-up {
+    display: block;
+  }
+
+  .sign-in__error-message {
+    bottom: 120px;
+  }
+}
+
+@media screen and (max-width: 386px) {
+  .sign-in__error-message {
+    bottom: 130px;
   }
 }

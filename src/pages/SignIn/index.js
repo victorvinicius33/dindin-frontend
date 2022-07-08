@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import './style.css';
-import Logo from '../../assets/logo.svg';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import Logo from '../../assets/logo.svg';
 import { setItem, getItem } from '../../utils/localStorage';
 import api from '../../services/api';
 
@@ -55,16 +56,16 @@ function SignIn() {
   }
   console.log(error);
   return (
-    <div className='sign-in'>
-      <header className='sign-in__logo'>
-        <img src={Logo} alt='Logo' />
-        <h1>Dindin</h1>
-      </header>
+    <div className="sign-in">
+      <img src={Logo} alt="logo" className="sign-in__logo" />
 
-      <main className='sign-in__main'>
-        <div className='sign-in__left'>
+      <main className="sign-in__main">
+        <div className="sign-in__left">
           <h1>
-            Controle suas <span>finanças</span>, sem planilha chata.
+            Controle suas
+            {' '}
+            <span>finanças</span>
+            , sem planilha chata.
           </h1>
           <p>
             Organizar suas finanças nunca foi tão fácil, com o DINDIN, você tem
@@ -73,28 +74,31 @@ function SignIn() {
           <button onClick={() => navigate('/sign-up')}>Cadastre-se</button>
         </div>
 
-        <div className='sign-in__right'>
+        <div className="sign-in__right">
           <h2>Login</h2>
           <form onSubmit={handleSubmit}>
-            <label htmlFor='email'>Email</label>
+            <label htmlFor="email">Email</label>
             <input
-              id='email'
-              type='email'
+              id="email"
+              type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <label htmlFor='password'>Password</label>
+            <label htmlFor="password">Password</label>
             <input
-              id='password'
-              type='password'
+              id="password"
+              type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            {error && <span className='sign-in__error-message'>{error}</span>}
-            <span className='sign-in__error-message'>{error}</span>
-            <button>Entrar</button>
+            {error && <span className="sign-in__error-message">{error}</span>}
+            <span className="sign-in__error-message">{error}</span>
+            <button className="sign-in__btn-submit">Entrar</button>
           </form>
+          <Link className="sign-in__link-to-sign-up" to="/sign-up">
+            Não tem conta? clique para cadastrar!
+          </Link>
         </div>
       </main>
     </div>

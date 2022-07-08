@@ -2,7 +2,11 @@
   width: 100%;
   min-height: 100vh;
 
-  padding-bottom: 95px;
+  padding: 95px 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   background: linear-gradient(
       180deg,
@@ -19,36 +23,22 @@
 }
 
 .sign-up__header {
-  padding: 41px 0 62px 100px;
-}
-
-.sign-up__main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.sign-up__btn {
-  all: unset;
-  font-weight: 700;
-  font-size: 1.4rem;
-  text-align: center;
-
-  padding: 17px 0;
-  border-radius: 5px;
-
-  background-color: #7978d9;
-  color: #ffffff;
-  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  left: 20px;
 }
 
 .sign-up__form {
+  width: 513px;
+
   display: flex;
   flex-direction: column;
-  background-color: #ffffff;
-  width: 513px;
-  padding: 0 32px;
+
+  padding: 60px 32px;
+
   border-radius: 8px;
+
+  background-color: #ffffff;
 }
 
 .sign-up__form h2 {
@@ -56,7 +46,7 @@
   font-size: 2.8rem;
 
   align-self: center;
-  margin: 60px 0 48px 0;
+  margin-bottom: 48px;
   color: #7978d9;
 }
 
@@ -88,20 +78,33 @@
   border: 1px solid #555555;
   border-radius: 5px;
 
-  font-size: 20px;
+  font-size: 2rem;
+
+  color: #484848;
 }
 
-.sign-up__btn {
+.sign-up__form button {
+  all: unset;
+  cursor: pointer;
+
   margin-top: 7px;
   margin-bottom: 8px;
+  padding: 17px 0;
+
+  font-weight: 700;
+  font-size: 1.4rem;
+  text-align: center;
+
+  border-radius: 5px;
+
+  background-color: #7978d9;
+  color: #ffffff;
 }
 
 .sign-up__form a {
   cursor: pointer;
 
-  margin-bottom: 57px;
-
-  align-self: center;
+  text-align: center;
 
   font-weight: 700;
 
@@ -117,12 +120,45 @@
   color: #ff0000;
 }
 
+@media screen and (max-width: 1024px) {
+  .sign-up__header {
+    width: 180px;
+    top: 20px;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .sign-up__header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    left: auto;
+  }
 
-    padding: 40px 0 40px 0;
+  .sign-up__form h2 {
+    margin-bottom: 40px;
+  }
+
+  .sign-up__form input {
+    margin-bottom: 20px;
+  }
+
+  .sign-up__error-message {
+    bottom: 60px;
+  }
+}
+
+@media screen and (max-width: 580px) {
+  .sign-up__form {
+    width: 300px;
+    padding: 40px 32px;
+  }
+
+  .sign-up__form h2 {
+    margin-bottom: 40px;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .sign-up__form {
+    width: 250px;
+    padding: 40px 32px;
   }
 }
