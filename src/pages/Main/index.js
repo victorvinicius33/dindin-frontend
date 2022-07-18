@@ -5,14 +5,15 @@ import UpArrow from '../../assets/upArrow.svg';
 import AdicionarRegistro from '../../components/AdicionarRegistro/index';
 import Registro from '../../components/Registros/index';
 import CategoriasFiltro from '../../components/CategoriasFiltro/index';
+import { formatNumberToMoney } from '../../utils/formatters';
 import { useEffect, useRef, useState } from 'react';
 import api from '../../services/api';
 import { getItem } from '../../utils/localStorage';
 
 function Home() {
-  const [transacoes, setTransacoes] = useState([]);
+  const [transactions, setTransactions] = useState([]);
   const [extrato, setExtrato] = useState([]);
-  const [categorias, setCategorias] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [filter, setFilter] = useState('none');
   const [mostrarAddRegistro, setMostrarAddRegistro] = useState(false);
   const [ordenarPorData, setOrdenarPorData] = useState('crescente');
@@ -38,9 +39,9 @@ function Home() {
 
     async function entradasESaidas() {
       try {
-        const response = await api.get('/extrato', {
+        const response = await api.get('/transacao/extrato', {
           headers: {
-            Authorization: token,
+            Authorization: `Bearer ${token}`,
           },
         });
 
@@ -56,13 +57,13 @@ function Home() {
       try {
         const response = await api.get('/categoria', {
           headers: {
-            Authorization: token,
+            Authorization: `Bearer ${token}`,
           },
         });
 
         if (response.status > 204) return;
 
-        setCategorias(response.data);
+        setCategories(response.data);
       } catch (error) {
         console.log(error.response.data.message);
       }
@@ -73,20 +74,14 @@ function Home() {
     listarCategorias();
   }, []);
 
-  function categoriaDoProduto(categoria_id) {
-    const categoria = categorias.find((categoria) => {
-      return categoria.id === categoria_id;
+  function categoriaDoProduto(category_id) {
+    const categoryName = categories.find((category) => {
+      return category.id === category_id;
     });
 
-    if (!categoria) return '-';
+    if (!categoryName) return '-';
 
-    return categoria.descricao;
-  }
-
-  function converterCentavosEmReais(valorEmCentavos) {
-    const valorEmReais = 'R$ ' + (valorEmCentavos / 100).toFixed(2);
-
-    return valorEmReais.replace('.', ',');
+    return categoryName.description;
   }
 
   function ordenarPorDataCrescente(arr) {
@@ -94,7 +89,7 @@ function Home() {
       return new Date(a.data) - new Date(b.data);
     });
 
-    setTransacoes(arrOrdenado);
+    setTransactions(arrOrdenado);
     return;
   }
 
@@ -103,17 +98,17 @@ function Home() {
       return new Date(b.data) - new Date(a.data);
     });
 
-    setTransacoes(arrOrdenado);
+    setTransactions(arrOrdenado);
     return;
   }
 
   function lidarComOrdenacaoPorData() {
     if (ordenarPorData === 'crescente') {
       setOrdenarPorData('descrecente');
-      ordenarPorDataDecrescente(transacoes);
+      ordenarPorDataDecrescente(transactions);
     } else {
       setOrdenarPorData('crescente');
-      ordenarPorDataCrescente(transacoes);
+      ordenarPorDataCrescente(transactions);
     }
   }
 
@@ -140,11 +135,11 @@ function Home() {
           <div className='filter-list' ref={categoryRef}>
             <p className='category-list-title'>Categoria</p>
             <div className='container-filters'>
-              {categorias.map((categoria) => (
-                <div key={categoria.id}>
+              {categories.map((category) => (
+                <div key={category.id}>
                   <CategoriasFiltro
-                    id={categoria.id}
-                    categoria={categoria.descricao}
+                    id={category.id}
+                    categoria={category.description}
                   />
                 </div>
               ))}
@@ -167,15 +162,15 @@ function Home() {
             <span>Valor</span>
           </div>
           <div>
-            {transacoes.map((transacao) => (
-              <div key={transacao.id}>
+            {transactions.map((transaction) => (
+              <div key={transaction.id}>
                 <Registro
-                  id={transacao.id}
-                  data={transacao.data}
-                  descricao={transacao.descricao}
-                  categoria={categoriaDoProduto(transacao.categoria_id)}
-                  valor={converterCentavosEmReais(transacao.valor)}
-                  tipo={transacao.tipo}
+                  id={transaction.id}
+                  data={transaction.date}
+                  descricao={transaction.description}
+                  categoria={categoriaDoProduto(transaction.category_id)}
+                  valor={formatNumberToMoney(transaction.amount)}
+                  tipo={transaction.tipo}
                 />
               </div>
             ))}
@@ -186,16 +181,16 @@ function Home() {
             <h2>Resumo</h2>
             <div className='resumo-entrada'>
               <span>Entradas</span>
-              <p>{converterCentavosEmReais(extrato.entrada)}</p>
+              <p>{formatNumberToMoney(extrato.cashIn)}</p>
             </div>
             <div className='resumo-saida'>
               <span>Saídas</span>
-              <p>{converterCentavosEmReais(extrato.saida)}</p>
+              <p>{formatNumberToMoney(extrato.cashOut)}</p>
             </div>
             <hr />
             <div className='resumo-saldo'>
               <span>Saldo</span>
-              <p>{converterCentavosEmReais(extrato.entrada - extrato.saida)}</p>
+              <p>{formatNumberToMoney(extrato.cashIn - extrato.cashOut)}</p>
             </div>
           </div>
 
@@ -205,7 +200,7 @@ function Home() {
           {mostrarAddRegistro && (
             <AdicionarRegistro
               setMostrarAddRegistro={setMostrarAddRegistro}
-              categorias={categorias}
+              categorias={categories}
             />
           )}
         </div>

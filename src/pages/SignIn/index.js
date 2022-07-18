@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import Logo from '../../assets/logo.svg';
 import { setItem, getItem } from '../../utils/localStorage';
 import api from '../../services/api';
+import { validationLoginForm } from '../../validations/validationLoginForm';
 
 function SignIn() {
   const [email, setEmail] = useState('');
@@ -25,28 +26,34 @@ function SignIn() {
 
     setError('');
 
-    if (!email || !password) {
-      setError('Todos os campos são obrigatórios!');
-      return;
+    const formValidation = await validationLoginForm({
+      email,
+      password,
+    });
+    
+    if (formValidation.error) {
+      return setError(formValidation.errorMessage);
     }
 
     try {
       const response = await api.post('/login', {
         email,
-        senha: password,
+        password,
       });
 
       if (response.status > 204) return;
 
-      const { token, usuario } = response.data;
+      const { token, user } = response.data;
 
       setItem('token', token);
-      setItem('userId', usuario.id);
+      setItem('userId', user.id);
 
       handleClearForm();
       navigate('/main');
     } catch (error) {
-      setError(error.response.data.mensagem);
+      if (error.response.status < 500) {
+        setError(error.response.data.message);
+      }
     }
   }
 
@@ -54,7 +61,7 @@ function SignIn() {
     setEmail('');
     setPassword('');
   }
-  console.log(error);
+  
   return (
     <div className="sign-in">
       <img src={Logo} alt="logo" className="sign-in__logo" />
@@ -80,7 +87,7 @@ function SignIn() {
             <label htmlFor="email">Email</label>
             <input
               id="email"
-              type="email"
+              type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />

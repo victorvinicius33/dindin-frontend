@@ -3,12 +3,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import api from '../../services/api';
 import Logo from '../../assets/logo.svg';
+import { validationSignUpForm } from '../../validations/validationSignUpForm';
 
 function SignUp() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [repeatPassword, setRepeatPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -17,44 +18,34 @@ function SignUp() {
 
     setError('');
 
-    const formError = formValidation();
-
-    if (formError) return setError(formError);
+    const formValidation = await validationSignUpForm({
+      name,
+      email,
+      password,
+      repeatPassword,
+    });
+    
+    if (formValidation.error) {
+      return setError(formValidation.errorMessage);
+    }
 
     try {
       const response = await api.post('/usuario', {
+        name,
         email,
-        nome: name,
-        senha: password,
+        password,
+        repeatPassword,
       });
 
       if (response.status > 204) return;
 
       handleClearForm();
-      navigate('/login');
+      navigate('/');
     } catch (error) {
-      setError(error.response.data.mensagem);
+      if (error.response.status < 500) {
+        setError(error.response.data.message);
+      }
     }
-  }
-
-  function formValidation() {
-    if (!name) {
-      return "O campo 'Nome' é obrigatório.";
-    }
-    if (!email) {
-      return "O campo 'Email' é obrigatório.";
-    }
-    if (!email.includes('@' && '.')) {
-      return 'Insira um email válido';
-    }
-    if (!password) {
-      return "O campo 'Senha' é obrigatório.";
-    }
-    if (password !== confirmPassword) {
-      return 'Senhas não conferem.';
-    }
-
-    return '';
   }
 
   function handleClearForm() {
@@ -65,51 +56,51 @@ function SignUp() {
   }
 
   return (
-    <div className="sign-up">
-      <img className="sign-up__header" src={Logo} alt="logo" />
+    <div className='sign-up'>
+      <img className='sign-up__header' src={Logo} alt='logo' />
 
-      <div className="sign-up__form">
+      <div className='sign-up__form'>
         <h2>Cadastre-se</h2>
 
         <form onSubmit={handleSubmit}>
-          <label htmlFor="name">Nome</label>
+          <label htmlFor='name'>Nome</label>
           <input
-            id="name"
-            type="text"
+            id='name'
+            type='text'
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
 
-          <label htmlFor="email">Email</label>
+          <label htmlFor='email'>Email</label>
           <input
-            id="email"
-            type="email"
+            id='email'
+            type='text'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
 
-          <label htmlFor="password">Senha</label>
+          <label htmlFor='password'>Senha</label>
           <input
-            id="password"
-            type="password"
+            id='password'
+            type='password'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          <label htmlFor="confirm-password">Confirmação de senha</label>
+          <label htmlFor='confirm-password'>Confirmação de senha</label>
           <input
-            id="confirm-password"
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            id='confirm-password'
+            type='password'
+            value={repeatPassword}
+            onChange={(e) => setRepeatPassword(e.target.value)}
           />
 
-          {error && <p className="sign-up__error-message">{error}</p>}
+          {error && <p className='sign-up__error-message'>{error}</p>}
 
           <button>Cadastrar</button>
         </form>
 
-        <Link to="/" style={{ textDecoration: 'none' }}>
+        <Link to='/' style={{ textDecoration: 'none' }}>
           Já tem cadastro? Clique aqui!
         </Link>
       </div>
