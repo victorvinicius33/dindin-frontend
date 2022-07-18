@@ -121,8 +121,10 @@ function Home() {
   useEffect(lidarComMostrarFiltros, []);
 
   return (
-    <div>
+    <div className='main'>
+
       <Header />
+      
       <div className='main-home-container'>
         <div className='main-home'>
           <div className='div-filter'>

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import './style.css';
-import { Outlet, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Logo from '../../assets/logo.svg';
 import Profile from '../../assets/profile.svg';
@@ -10,12 +10,12 @@ import api from '../../services/api';
 import EditarPerfil from '../EditarPerfil/index';
 
 export default function Header() {
-  const [perfilAtual, setPerfilAtual] = useState({});
+  const [profileData, setProfileData] = useState({});
   const [editandoPerfil, setEditandoPerfil] = useState(false);
   const token = getItem('token');
 
   useEffect(() => {
-    async function carregarDadosDoUsuario() {
+    async function loadProfile() {
       try {
         const response = await api.get('/usuario', {
           headers: {
@@ -27,13 +27,15 @@ export default function Header() {
           return;
         }
 
-        setPerfilAtual(response.data);
+        const profileFirstName = response.data.name.split(' ');
+
+        setProfileData({...response.data, name: profileFirstName[0]});
       } catch (error) {
         console.log(error.response.data.message);
       }
     }
 
-    carregarDadosDoUsuario();
+    loadProfile();
   }, []);
 
   async function lidarComLogout() {
@@ -41,38 +43,32 @@ export default function Header() {
   }
 
   return (
-    <div>
+    <header className='header'>
+      <div className='header__container'>
+        <img src={Logo} alt='dindin' className='header__logo' />
+
+        <div className='header__profile-area'>
+          <img
+            src={Profile}
+            alt='Profile logo'
+            className='header__profile-logo'
+            onClick={() => setEditandoPerfil(true)}
+          />
+          <h1 className='header__profile-name'>{profileData.name}</h1>
+
+          <Link onClick={() => lidarComLogout()} to='/'>
+            <img src={Logout} alt='Logout' className='logout-logo' />
+          </Link>
+        </div>
+      </div>
+
       {editandoPerfil && (
         <EditarPerfil
           setEditandoPerfil={setEditandoPerfil}
-          nomeUsuario={perfilAtual.nome}
-          emailUsuario={perfilAtual.email}
+          nomeUsuario={profileData.name}
+          emailUsuario={profileData.email}
         />
       )}
-      <header className="container-header">
-        <div className="logo-dindin">
-          <img src={Logo} alt="Logo" className="logo" />
-        </div>
-
-        <div className="logged-info">
-          <div>
-            <img
-              src={Profile}
-              alt="Profile logo"
-              className="profile-logo"
-              onClick={() => setEditandoPerfil(true)}
-            />
-            <h1 className="profile-name">{perfilAtual.nome}</h1>
-
-            <Link onClick={() => lidarComLogout()} to="/">
-              <img src={Logout} alt="Logout" className="logout-logo" />
-            </Link>
-          </div>
-        </div>
-      </header>
-      <div className="content-page">
-        <Outlet />
-      </div>
-    </div>
+    </header>
   );
 }
