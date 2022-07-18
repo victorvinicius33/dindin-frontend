@@ -16,12 +16,12 @@ function Home() {
   const [categories, setCategories] = useState([]);
   const [filter, setFilter] = useState('none');
   const [mostrarAddRegistro, setMostrarAddRegistro] = useState(false);
-  const [ordenarPorData, setOrdenarPorData] = useState('crescente');
+  const [sortByDate, setSortByDate] = useState('crescente');
   const categoryRef = useRef(null);
   const token = getItem('token');
 
   useEffect(() => {
-    async function carregarTransacoes() {
+    async function loadTransactions() {
       try {
         const response = await api.get('/transacao', {
           headers: {
@@ -31,13 +31,13 @@ function Home() {
 
         if (response.status > 204) return;
 
-        ordenarPorDataCrescente(response.data);
+        sortByAscendingDate(response.data);
       } catch (error) {
         console.log(error);
       }
     }
 
-    async function entradasESaidas() {
+    async function loadUserStatement() {
       try {
         const response = await api.get('/transacao/extrato', {
           headers: {
@@ -53,7 +53,7 @@ function Home() {
       }
     }
 
-    async function listarCategorias() {
+    async function loadCategories() {
       try {
         const response = await api.get('/categoria', {
           headers: {
@@ -69,9 +69,9 @@ function Home() {
       }
     }
 
-    carregarTransacoes();
-    entradasESaidas();
-    listarCategorias();
+    loadTransactions();
+    loadUserStatement();
+    loadCategories();
   }, []);
 
   function categoriaDoProduto(category_id) {
@@ -84,18 +84,18 @@ function Home() {
     return categoryName.description;
   }
 
-  function ordenarPorDataCrescente(arr) {
+  function sortByAscendingDate(arr) {
     const arrOrdenado = arr.sort((a, b) => {
-      return new Date(a.data) - new Date(b.data);
+      return new Date(a.date) - new Date(b.date);
     });
 
     setTransactions(arrOrdenado);
     return;
   }
 
-  function ordenarPorDataDecrescente(arr) {
+  function sortByDescendingDate(arr) {
     const arrOrdenado = arr.sort((a, b) => {
-      return new Date(b.data) - new Date(a.data);
+      return new Date(b.date) - new Date(a.date);
     });
 
     setTransactions(arrOrdenado);
@@ -103,12 +103,12 @@ function Home() {
   }
 
   function lidarComOrdenacaoPorData() {
-    if (ordenarPorData === 'crescente') {
-      setOrdenarPorData('descrecente');
-      ordenarPorDataDecrescente(transactions);
+    if (sortByDate === 'crescente') {
+      setSortByDate('descrecente');
+      sortByDescendingDate(transactions);
     } else {
-      setOrdenarPorData('crescente');
-      ordenarPorDataCrescente(transactions);
+      setSortByDate('crescente');
+      sortByAscendingDate(transactions);
     }
   }
 
