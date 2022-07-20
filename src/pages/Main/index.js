@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import './style.css';
 import Header from '../../components/Header';
 import Filter from '../../assets/filter.svg';
@@ -8,7 +9,8 @@ import CategoriasFiltro from '../../components/CategoriasFiltro/index';
 import { formatNumberToMoney } from '../../utils/formatters';
 import { useEffect, useRef, useState } from 'react';
 import api from '../../services/api';
-import { getItem } from '../../utils/localStorage';
+import { getItem, setItem } from '../../utils/localStorage';
+import EditarPerfil from '../../components/EditarPerfil/index';
 
 function Home() {
   const [transactions, setTransactions] = useState([]);
@@ -19,6 +21,8 @@ function Home() {
   const [sortByDate, setSortByDate] = useState('crescente');
   const categoryRef = useRef(null);
   const token = getItem('token');
+  const [openEditProfile, setOpenEditProfile] = useState(false);
+  const [profileData, setProfileData] = useState({});
 
   useEffect(() => {
     async function loadTransactions() {
@@ -120,11 +124,36 @@ function Home() {
 
   useEffect(lidarComMostrarFiltros, []);
 
+  useEffect(() => {
+    async function loadProfile() {
+      try {
+        const response = await api.get('/usuario', {
+          headers: {
+            Authorization: token,
+          },
+        });
+
+        if (response.status > 204) {
+          return;
+        }
+
+        const profileName = response.data.name.split(' ');
+
+        setItem('userName', profileName[0]);
+
+        setProfileData(response.data);
+      } catch (error) {
+        console.log(error.response.data.message);
+      }
+    }
+
+    loadProfile();
+  }, []);
+
   return (
     <div className='main'>
+      <Header setOpenEditProfile={setOpenEditProfile} />
 
-      <Header />
-      
       <div className='main-home-container'>
         <div className='main-home'>
           <div className='div-filter'>
@@ -207,6 +236,14 @@ function Home() {
           )}
         </div>
       </div>
+
+      {openEditProfile && (
+        <EditarPerfil
+          setOpenEditProfile={setOpenEditProfile}
+          profileData={profileData}
+          setProfileData={setProfileData}
+        />
+      )}
     </div>
   );
 }

@@ -1,123 +1,109 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import './style.css';
 import Close from '../../assets/close.svg';
 import { useState } from 'react';
 import api from '../../services/api';
-import { getItem } from '../../utils/localStorage';
+import { getItem, setItem } from '../../utils/localStorage';
 
-export default function ModalEditarPerfil({ setEditandoPerfil, nomeUsuario, emailUsuario }) {
-    const [form, setForm] = useState({
-        nome: nomeUsuario,
-        email: emailUsuario,
-        senha: '',
-        confirmarSenha: ''
-    });
-    const [erro, setErro] = useState('');
-    const token = getItem('token');
+export default function ModalEditarPerfil({
+  setOpenEditProfile,
+  profileData,
+  setProfileData,
+}) {
+  const [name, setName] = useState(profileData.name);
+  const [email, setEmail] = useState(profileData.email);
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const token = getItem('token');
 
-    async function lidarComEditarPerfil(e) {
-        e.preventDefault();
+  async function lidarComEditarPerfil(e) {
+    e.preventDefault();
 
-        try {
-            if (form.senha !== form.confirmarSenha) {
-                return setErro('As senhas não conferem.');
-            }
-
-            const response = await api.put('/usuario', {
-                nome: form.nome,
-                email: form.email,
-                senha: form.senha
-            }, {
-                headers: {
-                    Authorization: token
-                }
-            });
-
-            if (response.status > 204) {
-                return setErro(response.data.mensagem);
-            }
-
-            setEditandoPerfil(false);
-            window.location.reload();
-        } catch (error) {
-            setErro(error.response.data.mensagem);
+    try {
+      const response = await api.put(
+        '/usuario',
+        {
+          name,
+          email,
+          password,
+          confirmPassword,
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
         }
+      );
+
+      if (response.status > 204) return;
+
+      const profileName = name.split(' ');
+
+      setItem('userName', profileName[0]);
+
+      setProfileData({ ...profileData, name, email });
+
+      setOpenEditProfile(false);
+    } catch (error) {
+      setError(error.response.data.message);
     }
+  }
 
-    function lidarComMudancaNoForm(e) {
-        const value = e.target.value;
+  return (
+      <div className='edit-profile'>
+        <div className='edit-profile__container'>
+          <div className='edit-profile__header'>
+            <h1>Editar Perfil</h1>
+            <img
+              src={Close}
+              alt='Botão de fechar'
+              onClick={() => setOpenEditProfile(false)}
+              className='edit-profile__btn-close'
+            />
+          </div>
 
-        setForm({ ...form, [e.target.name]: value });
-    }
+          <form className='edit-profile__form' onSubmit={lidarComEditarPerfil}>
+            <label htmlFor='name'>Nome</label>
+            <input
+              value={name}
+              id='name'
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
 
-    function lidarComBotaoDeFechar() {
-        setEditandoPerfil(false);
+            <label htmlFor='email'>E-mail</label>
+            <input
+              value={email}
+              type='email'
+              id='email'
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
 
-        setForm({
-            nome: nomeUsuario,
-            email: emailUsuario,
-            senha: '',
-            confirmarSenha: ''
-        });
-    }
+            <label htmlFor='password'>Senha</label>
+            <input
+              value={password}
+              type='password'
+              id='password'
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
 
-    return (
-        <div className="container-editar-perfil">
-            <div className='div-form-perfil'>
-                <div className='titulo-editar-perfil'>
-                    <h1>Editar Perfil</h1>
-                    <img
-                        src={Close}
-                        alt='Botão de fechar'
-                        onClick={() => lidarComBotaoDeFechar()}
-                        className='btn-close'
-                    />
-                </div>
+            <label htmlFor='confirm-password'>Confirmação de Senha</label>
+            <input
+              value={confirmPassword}
+              type='password'
+              id='confirm-password'
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
 
-                <form className='form-editar-perfil' onSubmit={lidarComEditarPerfil}>
-                    <label htmlFor='nome'>Nome</label>
-                    <input
-                        value={form.nome}
-                        name='nome'
-                        id='nome'
-                        onChange={(e) => lidarComMudancaNoForm(e)}
-                        required
-                    />
+            {error && <p className='edit-profile__error'>{error}</p>}
 
-                    <label htmlFor='email'>E-mail</label>
-                    <input
-                        value={form.email}
-                        name='email'
-                        type='email'
-                        id='email'
-                        onChange={(e) => lidarComMudancaNoForm(e)}
-                        required
-                    />
-
-                    <label htmlFor='senha'>Senha</label>
-                    <input
-                        value={form.senha}
-                        name='senha'
-                        type='password'
-                        id='senha'
-                        onChange={(e) => lidarComMudancaNoForm(e)}
-                        required
-                    />
-
-                    <label htmlFor='confirm-senha' >Confirmação de Senha</label>
-                    <input
-                        value={form.confirmarSenha}
-                        name='confirmarSenha'
-                        type='password'
-                        id='confirm-senha'
-                        onChange={(e) => lidarComMudancaNoForm(e)}
-                        required
-                    />
-
-                    {erro && <p className='erro-editar-perfil'>{erro}</p>}
-
-                    <button className='enviar-perfil-editado' >Confirmar</button>
-                </form>
-            </div>
+            <button>Confirmar</button>
+          </form>
         </div>
-    )
+      </div>
+  );
 }
