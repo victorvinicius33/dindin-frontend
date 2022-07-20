@@ -1,128 +1,26 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import './style.css';
 import Header from '../../components/Header';
-import Filter from '../../assets/filter.svg';
 import UpArrow from '../../assets/upArrow.svg';
 import AdicionarRegistro from '../../components/AdicionarRegistro/index';
 import Registro from '../../components/Registros/index';
-import CategoriasFiltro from '../../components/CategoriasFiltro/index';
 import { formatNumberToMoney } from '../../utils/formatters';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import api from '../../services/api';
 import { getItem, setItem } from '../../utils/localStorage';
 import EditarPerfil from '../../components/EditarPerfil/index';
+import FilterCategories from '../../components/FilterCategories';
 
 function Home() {
-  const [transactions, setTransactions] = useState([]);
-  const [extrato, setExtrato] = useState([]);
+  const token = getItem('token');
+  const [defaultTransactions, setDefaultTransactions] = useState([]);
+  const [currentTransactions, setCurrentTransactions] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [filter, setFilter] = useState('none');
+  const [extrato, setExtrato] = useState({});
+  const [profileData, setProfileData] = useState({});
   const [mostrarAddRegistro, setMostrarAddRegistro] = useState(false);
   const [sortByDate, setSortByDate] = useState('crescente');
-  const categoryRef = useRef(null);
-  const token = getItem('token');
   const [openEditProfile, setOpenEditProfile] = useState(false);
-  const [profileData, setProfileData] = useState({});
-
-  useEffect(() => {
-    async function loadTransactions() {
-      try {
-        const response = await api.get('/transacao', {
-          headers: {
-            Authorization: token,
-          },
-        });
-
-        if (response.status > 204) return;
-
-        sortByAscendingDate(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    async function loadUserStatement() {
-      try {
-        const response = await api.get('/transacao/extrato', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (response.status > 204) return;
-
-        setExtrato(response.data);
-      } catch (error) {
-        console.log(error.response.data.message);
-      }
-    }
-
-    async function loadCategories() {
-      try {
-        const response = await api.get('/categoria', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (response.status > 204) return;
-
-        setCategories(response.data);
-      } catch (error) {
-        console.log(error.response.data.message);
-      }
-    }
-
-    loadTransactions();
-    loadUserStatement();
-    loadCategories();
-  }, []);
-
-  function categoriaDoProduto(category_id) {
-    const categoryName = categories.find((category) => {
-      return category.id === category_id;
-    });
-
-    if (!categoryName) return '-';
-
-    return categoryName.description;
-  }
-
-  function sortByAscendingDate(arr) {
-    const arrOrdenado = arr.sort((a, b) => {
-      return new Date(a.date) - new Date(b.date);
-    });
-
-    setTransactions(arrOrdenado);
-    return;
-  }
-
-  function sortByDescendingDate(arr) {
-    const arrOrdenado = arr.sort((a, b) => {
-      return new Date(b.date) - new Date(a.date);
-    });
-
-    setTransactions(arrOrdenado);
-    return;
-  }
-
-  function lidarComOrdenacaoPorData() {
-    if (sortByDate === 'crescente') {
-      setSortByDate('descrecente');
-      sortByDescendingDate(transactions);
-    } else {
-      setSortByDate('crescente');
-      sortByAscendingDate(transactions);
-    }
-  }
-
-  function lidarComMostrarFiltros() {
-    filter === 'none' ? setFilter('block') : setFilter('none');
-
-    categoryRef.current.style.display = filter;
-  }
-
-  useEffect(lidarComMostrarFiltros, []);
 
   useEffect(() => {
     async function loadProfile() {
@@ -141,44 +39,120 @@ function Home() {
 
         setItem('userName', profileName[0]);
 
-        setProfileData(response.data);
+        setProfileData({ ...response.data });
+      } catch (error) {
+        console.log(error.response.data.message);
+      }
+    }
+
+    async function loadTransactions() {
+      try {
+        const response = await api.get('/transacao', {
+          headers: {
+            Authorization: token,
+          },
+        });
+
+        if (response.status > 204) return;
+
+        setDefaultTransactions([...response.data]);
+        sortByAscendingDate(response.data);
+      } catch (error) {
+        console.log(error.response.data.message);
+      }
+    }
+
+    async function loadUserStatement() {
+      try {
+        const response = await api.get('/transacao/extrato', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.status > 204) return;
+
+        setExtrato({ ...response.data });
+      } catch (error) {
+        console.log(error.response.data.message);
+      }
+    }
+
+    async function loadCategories() {
+      try {
+        const response = await api.get('/categoria', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.status > 204) return;
+
+        response.data.forEach((category) => {
+          category.selected = false;
+        });
+
+        setCategories([...response.data]);
       } catch (error) {
         console.log(error.response.data.message);
       }
     }
 
     loadProfile();
+    loadTransactions();
+    loadUserStatement();
+    loadCategories();
   }, []);
 
+  function categoriaDoProduto(category_id) {
+    const categoryName = categories.find((category) => {
+      return category.id === category_id;
+    });
+
+    if (!categoryName) return '-';
+
+    return categoryName.description;
+  }
+
+  function sortByAscendingDate(arr) {
+    const sortedArray = arr.sort((a, b) => {
+      return new Date(a.date) - new Date(b.date);
+    });
+
+    return setCurrentTransactions([...sortedArray]);
+  }
+
+  function sortByDescendingDate(arr) {
+    const sortedArray = arr.sort((a, b) => {
+      return new Date(b.date) - new Date(a.date);
+    });
+
+    return setCurrentTransactions([...sortedArray]);
+  }
+
+  function lidarComOrdenacaoPorData() {
+    if (sortByDate === 'crescente') {
+      setSortByDate('descrecente');
+      sortByDescendingDate([...currentTransactions]);
+    } else {
+      setSortByDate('crescente');
+      sortByAscendingDate([...currentTransactions]);
+    }
+  }
+
   return (
-    <div className='main'>
+    <div className='main__container'>
       <Header setOpenEditProfile={setOpenEditProfile} />
 
-      <div className='main-home-container'>
-        <div className='main-home'>
-          <div className='div-filter'>
-            <span className='filter-button' onClick={lidarComMostrarFiltros}>
-              <img src={Filter} alt='Imagem de filtro' />
-              Filtrar
-            </span>
-          </div>
-
-          <div className='filter-list' ref={categoryRef}>
-            <p className='category-list-title'>Categoria</p>
-            <div className='container-filters'>
-              {categories.map((category) => (
-                <div key={category.id}>
-                  <CategoriasFiltro
-                    id={category.id}
-                    categoria={category.description}
-                  />
-                </div>
-              ))}
-            </div>
-
-            <button className='btn-clear-filter'>Limpar Filtros</button>
-            <button className='btn-apply-filter'>Aplicar Filtros</button>
-          </div>
+      <div className='main__content'>
+        <div className='main__left'>
+          <FilterCategories
+            categories={categories}
+            setCategories={setCategories}
+            setCurrentTransactions={setCurrentTransactions}
+            defaultTransactions={defaultTransactions}
+            sortByAscendingDate={sortByAscendingDate}
+          />
 
           <div className='table-header'>
             <span
@@ -193,7 +167,7 @@ function Home() {
             <span>Valor</span>
           </div>
           <div>
-            {transactions.map((transaction) => (
+            {currentTransactions.map((transaction) => (
               <div key={transaction.id}>
                 <Registro
                   id={transaction.id}
