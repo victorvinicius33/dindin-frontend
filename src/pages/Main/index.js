@@ -1,26 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import './style.css';
 import Header from '../../components/Header';
-import UpArrow from '../../assets/upArrow.svg';
 import AdicionarRegistro from '../../components/AdicionarRegistro/index';
-import Registro from '../../components/Registros/index';
 import { formatNumberToMoney } from '../../utils/formatters';
 import { useEffect, useState } from 'react';
 import api from '../../services/api';
 import { getItem, setItem } from '../../utils/localStorage';
 import EditarPerfil from '../../components/EditarPerfil/index';
 import FilterCategories from '../../components/FilterCategories';
+import TableTransactions from '../../components/TableTransactions';
+import ModalDeleteTransaction from '../../components/Modals/ModalDeleteTransaction';
 
 function Home() {
   const token = getItem('token');
   const [defaultTransactions, setDefaultTransactions] = useState([]);
   const [currentTransactions, setCurrentTransactions] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [extrato, setExtrato] = useState({});
+  const [statement, setStatement] = useState({});
   const [profileData, setProfileData] = useState({});
   const [mostrarAddRegistro, setMostrarAddRegistro] = useState(false);
-  const [sortByDate, setSortByDate] = useState('crescente');
   const [openEditProfile, setOpenEditProfile] = useState(false);
+  const [openDeleteTransaction, setOpenDeleteTransaction] = useState(false);
+  const [transactionId, setTransactionId] = useState(null);
 
   useEffect(() => {
     async function loadProfile() {
@@ -55,8 +56,12 @@ function Home() {
 
         if (response.status > 204) return;
 
-        setDefaultTransactions([...response.data]);
-        sortByAscendingDate(response.data);
+        const sortedArray = response.data.sort((a, b) => {
+          return new Date(a.date) - new Date(b.date);
+        });
+
+        setDefaultTransactions([...sortedArray]);
+        setCurrentTransactions([...sortedArray]);
       } catch (error) {
         console.log(error.response.data.message);
       }
@@ -72,7 +77,7 @@ function Home() {
 
         if (response.status > 204) return;
 
-        setExtrato({ ...response.data });
+        setStatement({ ...response.data });
       } catch (error) {
         console.log(error.response.data.message);
       }
@@ -104,42 +109,6 @@ function Home() {
     loadCategories();
   }, []);
 
-  function categoriaDoProduto(category_id) {
-    const categoryName = categories.find((category) => {
-      return category.id === category_id;
-    });
-
-    if (!categoryName) return '-';
-
-    return categoryName.description;
-  }
-
-  function sortByAscendingDate(arr) {
-    const sortedArray = arr.sort((a, b) => {
-      return new Date(a.date) - new Date(b.date);
-    });
-
-    return setCurrentTransactions([...sortedArray]);
-  }
-
-  function sortByDescendingDate(arr) {
-    const sortedArray = arr.sort((a, b) => {
-      return new Date(b.date) - new Date(a.date);
-    });
-
-    return setCurrentTransactions([...sortedArray]);
-  }
-
-  function lidarComOrdenacaoPorData() {
-    if (sortByDate === 'crescente') {
-      setSortByDate('descrecente');
-      sortByDescendingDate([...currentTransactions]);
-    } else {
-      setSortByDate('crescente');
-      sortByAscendingDate([...currentTransactions]);
-    }
-  }
-
   return (
     <div className='main__container'>
       <Header setOpenEditProfile={setOpenEditProfile} />
@@ -151,51 +120,31 @@ function Home() {
             setCategories={setCategories}
             setCurrentTransactions={setCurrentTransactions}
             defaultTransactions={defaultTransactions}
-            sortByAscendingDate={sortByAscendingDate}
           />
 
-          <div className='table-header'>
-            <span
-              onClick={() => lidarComOrdenacaoPorData()}
-              className='cursor-pointer'
-            >
-              Data <img src={UpArrow} alt='seta para cima' />
-            </span>
-            <span>Dia da semana</span>
-            <span>Descrição</span>
-            <span>Categoria</span>
-            <span>Valor</span>
-          </div>
-          <div>
-            {currentTransactions.map((transaction) => (
-              <div key={transaction.id}>
-                <Registro
-                  id={transaction.id}
-                  data={transaction.date}
-                  descricao={transaction.description}
-                  categoria={categoriaDoProduto(transaction.category_id)}
-                  valor={formatNumberToMoney(transaction.amount)}
-                  tipo={transaction.tipo}
-                />
-              </div>
-            ))}
-          </div>
+          <TableTransactions
+            currentTransactions={currentTransactions}
+            setCurrentTransactions={setCurrentTransactions}
+            categories={categories}
+            setTransactionId={setTransactionId}
+            setOpenDeleteTransaction={setOpenDeleteTransaction}
+          />
         </div>
         <div className='resumo-container'>
           <div className='resumo'>
             <h2>Resumo</h2>
             <div className='resumo-entrada'>
               <span>Entradas</span>
-              <p>{formatNumberToMoney(extrato.cashIn)}</p>
+              <p>{formatNumberToMoney(statement.cashIn)}</p>
             </div>
             <div className='resumo-saida'>
               <span>Saídas</span>
-              <p>{formatNumberToMoney(extrato.cashOut)}</p>
+              <p>{formatNumberToMoney(statement.cashOut)}</p>
             </div>
             <hr />
             <div className='resumo-saldo'>
               <span>Saldo</span>
-              <p>{formatNumberToMoney(extrato.cashIn - extrato.cashOut)}</p>
+              <p>{formatNumberToMoney(statement.cashIn - statement.cashOut)}</p>
             </div>
           </div>
 
@@ -216,6 +165,14 @@ function Home() {
           setOpenEditProfile={setOpenEditProfile}
           profileData={profileData}
           setProfileData={setProfileData}
+        />
+      )}
+      {openDeleteTransaction && (
+        <ModalDeleteTransaction
+          transaction_id={transactionId}
+          setOpenDeleteTransaction={setOpenDeleteTransaction}
+          defaultTransactions={defaultTransactions}
+          setCurrentTransactions={setCurrentTransactions}
         />
       )}
     </div>

@@ -1,0 +1,103 @@
+.modal-delete-transaction {
+  width: 100%;
+  min-height: 100vh;
+  
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(145, 154, 150, 0.3);
+  backdrop-filter: blur(4px);
+}
+
+.modal-delete-transaction__container {
+  width: 80%;
+  min-height: 400px;
+  max-width: 600px;
+
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 2.7% 4% 2.5% 4%;
+
+  border-radius: 30px;
+
+  background: white;
+}
+
+.modal-delete-transaction__btn-close {
+  cursor: pointer;
+
+  position: absolute;
+  top: 30px;
+  right: 30px;
+
+  border: none;
+
+  background: white;
+}
+
+.modal-delete-transaction__alert-icon {
+  width: 160px;
+  height: 160px;
+
+  margin-bottom: 13px;
+}
+
+.modal-delete-transaction__container h1 {
+  margin-bottom: 28px;
+
+  text-align: center;
+  font-family: 'Rubik', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1.8rem;
+  line-height: 130%;
+
+  color: #cc7800;
+}
+
+.modal-delete-transaction__btns {
+  display: flex;
+
+  gap: 16px;
+}
+
+.modal-delete-transaction__btn-cancel,
+.modal-delete-transaction__btn-confirm {
+  cursor: pointer;
+
+  width: 100px;
+  height: 24px;
+
+  text-align: center;
+
+  border: none;
+  border-radius: 4px;
+
+  font-family: 'Rubik', sans-serif;
+  font-weight: 500;
+  font-size: 1.8rem;
+  line-height: 2.5rem;
+}
+
+.modal-delete-transaction__btn-cancel {
+  background-color: #f2d6d0;
+  color: #ae1100;
+}
+
+.modal-delete-transaction__btn-confirm {
+  background-color: #acd9c5;
+  color: #034a2a;
+}

@@ -7,7 +7,6 @@ export default function FilterCategories({
   setCategories,
   setCurrentTransactions,
   defaultTransactions,
-  sortByAscendingDate
 }) {
   const [openFilter, setOpenFilter] = useState(false);
 
@@ -41,7 +40,11 @@ export default function FilterCategories({
     });
 
     if (!selectedCategories.length) {
-      return sortByAscendingDate(defaultTransactions);
+      const transactionsOrderByAscendingDate = defaultTransactions.sort((a, b) => {
+        return new Date(a.date) - new Date(b.date);
+      });
+  
+      return setCurrentTransactions([...transactionsOrderByAscendingDate]);
     }
 
     const filteredTransactions = [];
