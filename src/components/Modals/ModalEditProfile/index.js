@@ -6,7 +6,7 @@ import api from '../../../services/api';
 import { getItem, setItem } from '../../../utils/localStorage';
 
 export default function ModalEditProfile({
-  setOpenEditProfile,
+  setOpenModalEditProfile,
   profileData,
   setProfileData,
 }) {
@@ -44,7 +44,7 @@ export default function ModalEditProfile({
 
       setProfileData({ ...profileData, name, email });
 
-      setOpenEditProfile(false);
+      setOpenModalEditProfile(false);
     } catch (error) {
       setError(error.response.data.message);
     }
@@ -58,7 +58,7 @@ export default function ModalEditProfile({
             <img
               src={Close}
               alt='Botão de fechar'
-              onClick={() => setOpenEditProfile(false)}
+              onClick={() => setOpenModalEditProfile(false)}
               className='edit-profile__btn-close'
             />
           </div>

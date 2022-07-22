@@ -2,12 +2,13 @@
 import './style.css';
 import { useEffect, useState } from 'react';
 import Header from '../../components/Header';
-import ModalAddTransaction from '../../components/Modals/ModalAddTransaction/index';
-import ModalEditProfile from '../../components/Modals/ModalEditProfile/index';
 import FilterCategories from '../../components/FilterCategories';
 import TableTransactions from '../../components/TableTransactions';
-import ModalDeleteTransaction from '../../components/Modals/ModalDeleteTransaction';
 import StatementSummary from '../../components/StatementSummary';
+import ModalEditProfile from '../../components/Modals/ModalEditProfile/index';
+import ModalAddTransaction from '../../components/Modals/ModalAddTransaction/index';
+import ModalEditTransaction from '../../components/Modals/ModalEditTransaction';
+import ModalDeleteTransaction from '../../components/Modals/ModalDeleteTransaction';
 import api from '../../services/api';
 import { getItem, setItem } from '../../utils/localStorage';
 import { formatNumberToMoney } from '../../utils/formatters';
@@ -19,10 +20,14 @@ function Home() {
   const [categories, setCategories] = useState([]);
   const [statement, setStatement] = useState({});
   const [profileData, setProfileData] = useState({});
-  const [openModalAddRegister, setOpenModalAddRegister] = useState(false);
-  const [openEditProfile, setOpenEditProfile] = useState(false);
-  const [openDeleteTransaction, setOpenDeleteTransaction] = useState(false);
+  const [openModalAddTransaction, setOpenModalAddTransaction] = useState(false);
+  const [openModalEditProfile, setOpenModalEditProfile] = useState(false);
+  const [openModalDeleteTransaction, setOpenModalDeleteTransaction] =
+    useState(false);
+  const [openModalEditTransaction, setOpenModalEditTransaction] =
+    useState(false);
   const [transactionId, setTransactionId] = useState(null);
+  const [transactionToEdit, setTransactionToEdit] = useState({});
 
   useEffect(() => {
     async function loadProfile() {
@@ -123,7 +128,7 @@ function Home() {
 
   return (
     <div className='main__container'>
-      <Header setOpenEditProfile={setOpenEditProfile} />
+      <Header setOpenModalEditProfile={setOpenModalEditProfile} />
 
       <main className='main__content'>
         <section className='main__left'>
@@ -138,23 +143,33 @@ function Home() {
             currentTransactions={currentTransactions}
             setCurrentTransactions={setCurrentTransactions}
             categories={categories}
+            setOpenModalEditTransaction={setOpenModalEditTransaction}
+            setOpenModalDeleteTransaction={setOpenModalDeleteTransaction}
             setTransactionId={setTransactionId}
-            setOpenDeleteTransaction={setOpenDeleteTransaction}
+            setTransactionToEdit={setTransactionToEdit}
           />
         </section>
 
         <section className='main__right'>
           <StatementSummary
             statement={statement}
-            setOpenModalAddRegister={setOpenModalAddRegister}
+            setOpenModalAddTransaction={setOpenModalAddTransaction}
             loadUserStatement={loadUserStatement}
           />
         </section>
       </main>
 
-      {openModalAddRegister && (
+      {openModalEditProfile && (
+        <ModalEditProfile
+          setOpenModalEditProfile={setOpenModalEditProfile}
+          profileData={profileData}
+          setProfileData={setProfileData}
+        />
+      )}
+
+      {openModalAddTransaction && (
         <ModalAddTransaction
-          setOpenModalAddRegister={setOpenModalAddRegister}
+          setOpenModalAddTransaction={setOpenModalAddTransaction}
           categories={categories}
           defaultTransactions={defaultTransactions}
           setDefaultTransactions={setDefaultTransactions}
@@ -163,17 +178,24 @@ function Home() {
           loadUserStatement={loadUserStatement}
         />
       )}
-      {openEditProfile && (
-        <ModalEditProfile
-          setOpenEditProfile={setOpenEditProfile}
-          profileData={profileData}
-          setProfileData={setProfileData}
+
+      {openModalEditTransaction && (
+        <ModalEditTransaction
+          transactionId={transactionId}
+          setOpenModalEditTransaction={setOpenModalEditTransaction}
+          categories={categories}
+          defaultTransactions={defaultTransactions}
+          setDefaultTransactions={setDefaultTransactions}
+          currentTransactions={currentTransactions}
+          setCurrentTransactions={setCurrentTransactions}
+          loadUserStatement={loadUserStatement}
         />
       )}
-      {openDeleteTransaction && (
+
+      {openModalDeleteTransaction && (
         <ModalDeleteTransaction
           transaction_id={transactionId}
-          setOpenDeleteTransaction={setOpenDeleteTransaction}
+          setOpenModalDeleteTransaction={setOpenModalDeleteTransaction}
           defaultTransactions={defaultTransactions}
           setDefaultTransactions={setDefaultTransactions}
           currentTransactions={currentTransactions}

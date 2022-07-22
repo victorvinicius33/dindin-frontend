@@ -6,7 +6,7 @@ import { getItem } from '../../../utils/localStorage';
 
 export default function ModalDeleteTransaction({
   transaction_id,
-  setOpenDeleteTransaction,
+  setOpenModalDeleteTransaction,
   defaultTransactions,
   setDefaultTransactions,
   currentTransactions,
@@ -42,7 +42,7 @@ export default function ModalDeleteTransaction({
 
       loadUserStatement();
 
-      setOpenDeleteTransaction(false);
+      setOpenModalDeleteTransaction(false);
     } catch (error) {
       console.log(error.response.message);
     }
@@ -53,7 +53,7 @@ export default function ModalDeleteTransaction({
       <div className='modal-delete-transaction__container'>
         <button className='modal-delete-transaction__btn-close'>
           <img
-            onClick={() => setOpenDeleteTransaction(false)}
+            onClick={() => setOpenModalDeleteTransaction(false)}
             src={CloseIcon}
             alt='fechar'
           />
@@ -67,7 +67,7 @@ export default function ModalDeleteTransaction({
         <div className='modal-delete-transaction__btns'>
           <button
             className='modal-delete-transaction__btn-cancel'
-            onClick={() => setOpenDeleteTransaction(false)}
+            onClick={() => setOpenModalDeleteTransaction(false)}
           >
             Não
           </button>

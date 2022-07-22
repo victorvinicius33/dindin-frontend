@@ -6,7 +6,7 @@ import Profile from '../../assets/profile.svg';
 import Logout from '../../assets/logout.svg';
 import { getItem, clear } from '../../utils/localStorage';
 
-export default function Header({setOpenEditProfile}) {
+export default function Header({ setOpenModalEditProfile }) {
   const navigate = useNavigate();
   const userName = getItem('userName');
 
@@ -25,7 +25,7 @@ export default function Header({setOpenEditProfile}) {
             src={Profile}
             alt='Profile'
             className='header__profile-logo'
-            onClick={() => setOpenEditProfile(true)}
+            onClick={() => setOpenModalEditProfile(true)}
           />
           <h1 className='header__profile-name'>{userName}</h1>
           <img

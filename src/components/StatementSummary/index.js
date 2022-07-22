@@ -2,7 +2,7 @@ import './style.css';
 
 export default function StatementSummary({
   statement,
-  setOpenModalAddRegister,
+  setOpenModalAddTransaction,
 }) {
   return (
     <div className='statement-summary__container'>
@@ -32,7 +32,7 @@ export default function StatementSummary({
       </div>
 
       <button
-        onClick={() => setOpenModalAddRegister(true)}
+        onClick={() => setOpenModalAddTransaction(true)}
         className='statement-summary__btn-add-register'
       >
         Adicionar Registro

@@ -1,12 +1,15 @@
 import './style.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import Select from 'react-select';
 import Close from '../../../assets/close.svg';
 import { ValidationAddTransactionForm } from '../../../validations/validationAddTransactionForm';
 import api from '../../../services/api';
 import { getItem } from '../../../utils/localStorage';
+import { formatDate, formatNumberToMoney } from '../../../utils/formatters';
 
-export default function ModalAddTransaction({
-  setOpenModalAddTransaction,
+export default function ModalEditTransaction({
+  transactionId,
+  setOpenModalEditTransaction,
   categories,
   currentTransactions,
   setCurrentTransactions,
@@ -21,18 +24,19 @@ export default function ModalAddTransaction({
   const [date, setDate] = useState('');
   const [description, setDescription] = useState('');
   const [error, setError] = useState(true);
-
+  
   async function handleSubmit(e) {
     e.preventDefault();
 
     setError('');
-
-    const [day, month, year] = date.split('/');
-    const formatedDate = new Date(`${year}-${month}-${day}`);
+    console.log(amount)
+    if (!amount) {
+       return setError('O campo valor é obrigatório.');
+    }
 
     const formValidation = await ValidationAddTransactionForm({
       amount,
-      date: formatedDate,
+      date: new Date(date),
     });
 
     if (formValidation.error) {
@@ -40,13 +44,13 @@ export default function ModalAddTransaction({
     }
 
     try {
-      const response = await api.post(
-        '/transacao',
+      const response = await api.put(
+        `/transacao/${transactionId}`,
         {
           amount,
           transaction_type,
           category_id,
-          date: formatedDate,
+          date: new Date(date),
           description,
         },
         {
@@ -58,12 +62,40 @@ export default function ModalAddTransaction({
 
       if (response.status > 204) return;
 
-      setCurrentTransactions([...currentTransactions, response.data]);
-      setDefaultTransactions([...defaultTransactions, response.data]);
+      const updatedCurrentTransactions = currentTransactions.map((transaction) => {
+        if (transaction.id === transactionId) {
+          transaction.amount = amount;
+          transaction.transaction_type = transaction_type;
+          transaction.category_id = category_id;
+          transaction.date = new Date(date);
+          transaction.description = description;
+
+          return transaction;
+        }
+
+        return transaction;
+      });
+
+      const updatedDefaultTransactions = defaultTransactions.map((transaction) => {
+        if (transaction.id === transactionId) {
+          transaction.amount = amount;
+          transaction.transaction_type = transaction_type;
+          transaction.category_id = category_id;
+          transaction.date = new Date(date);
+          transaction.description = description;
+
+          return transaction;
+        }
+
+        return transaction;
+      });
+
+      setCurrentTransactions([...updatedCurrentTransactions]);
+      setDefaultTransactions([...updatedDefaultTransactions]);
 
       loadUserStatement();
 
-      setOpenModalAddTransaction(false);
+      setOpenModalEditTransaction(false);
     } catch (error) {
       if (error.response.status < 500) {
         setError(error.response.data.message);
@@ -71,22 +103,49 @@ export default function ModalAddTransaction({
     }
   }
 
+  useEffect(() => {
+    async function loadTransaction() {
+      try {
+        const response = await api.get(`/transacao/${transactionId}`, {
+          headers: {
+            Authorization: token,
+          },
+        });
+        
+        if (response.status > 204) return;
+
+        const [ day, month, year] = formatDate(response.data.date).split('/');
+
+        const select = document.querySelector('#category');
+        select.value = response.data.category_id;
+
+        setAmount(response.data.amount);
+        setCategory_id(response.data.category_id);
+        setDate(`${year}-${month}-${day}`);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    loadTransaction();
+  }, []);
+
   return (
-    <div className='add-transaction'>
-      <div className='add-transaction__container'>
-        <div className='add-transaction__header'>
-          <h1>Adicionar Registro</h1>
+    <div className='edit-transaction'>
+      <div className='edit-transaction__container'>
+        <div className='edit-transaction__header'>
+          <h1>Editar Registro</h1>
           <img
-            className='add-transaction__btn-close'
+            className='edit-transaction__btn-close'
             src={Close}
             alt='fechar'
-            onClick={() => setOpenModalAddTransaction(false)}
+            onClick={() => setOpenModalEditTransaction(false)}
           />
         </div>
 
-        <div className='add-transaction__select-type'>
+        <div className='edit-transaction__select-type'>
           <button
-            className={`add-transaction__cash-in${
+            className={`edit-transaction__cash-in${
               transaction_type === 'entrada' ? '--selected' : ''
             } `}
             onClick={() => setTransaction_type('entrada')}
@@ -94,7 +153,7 @@ export default function ModalAddTransaction({
             Entrada
           </button>
           <button
-            className={`add-transaction__cash-out${
+            className={`edit-transaction__cash-out${
               transaction_type === 'saída' ? '--selected' : ''
             }`}
             onClick={() => setTransaction_type('saída')}
@@ -103,7 +162,7 @@ export default function ModalAddTransaction({
           </button>
         </div>
 
-        <form className='add-transaction__form' onSubmit={handleSubmit}>
+        <form className='edit-transaction__form' onSubmit={handleSubmit}>
           <label htmlFor='amount'>Valor</label>
           <input
             name='amount'
@@ -111,6 +170,7 @@ export default function ModalAddTransaction({
             type='text'
             placeholder='R$ 0,00'
             onChange={(e) => setAmount(e.target.value)}
+            value={amount}
           />
 
           <label htmlFor='category'>Categoria</label>
@@ -132,8 +192,11 @@ export default function ModalAddTransaction({
           <input
             name='date'
             id='date'
-            type='text'
+            type='date'
+            min="1000-01-01"
+            max="9999-01-01"
             onChange={(e) => setDate(e.target.value)}
+            value={date}
           />
 
           <label htmlFor='description'>Descrição</label>
@@ -142,9 +205,10 @@ export default function ModalAddTransaction({
             id='description'
             type='text'
             onChange={(e) => setDescription(e.target.value)}
+            value={description}
           />
 
-          {error && <p className='add-transaction__error'>{error}</p>}
+          {error && <p className='edit-transaction__error'>{error}</p>}
 
           <button>Confirmar</button>
         </form>

@@ -9,7 +9,8 @@ export default function TableTransactions({
   currentTransactions,
   setCurrentTransactions,
   categories,
-  setOpenDeleteTransaction,
+  setOpenModalEditTransaction,
+  setOpenModalDeleteTransaction,
   setTransactionId,
 }) {
   const [sortByDate, setSortByDate] = useState('ascending');
@@ -65,8 +66,15 @@ export default function TableTransactions({
   }
 
   function handleDeleteTransaction(id) {
-    setOpenDeleteTransaction(true);
     setTransactionId(id);
+
+    setOpenModalDeleteTransaction(true);
+  }
+
+  function handleEditTransaction(id) {
+    setTransactionId(id);
+
+    setOpenModalEditTransaction(true);
   }
 
   return (
@@ -109,10 +117,14 @@ export default function TableTransactions({
               {formatNumberToMoney(transaction.amount)}
             </td>
             <td>
-              <img src={Pencil} alt='editar' />
+              <img
+                src={Pencil}
+                alt='editar transação'
+                onClick={() => handleEditTransaction(transaction.id)}
+              />
               <img
                 src={Trash}
-                alt='deletar'
+                alt='deletar transação'
                 onClick={() => handleDeleteTransaction(transaction.id)}
               />
             </td>
