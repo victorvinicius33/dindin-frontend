@@ -3,15 +3,15 @@ import CloseIcon from '../../../assets/close-icon.svg';
 import AlertYellowIcon from '../../../assets/alert-yellow-icon.svg';
 import api from '../../../services/api';
 import { getItem } from '../../../utils/localStorage';
-import { formatNumberToMoney } from '../../../utils/formatters';
 
 export default function ModalDeleteTransaction({
   transaction_id,
   setOpenDeleteTransaction,
   defaultTransactions,
+  setDefaultTransactions,
   currentTransactions,
   setCurrentTransactions,
-  setStatement,
+  loadUserStatement,
 }) {
   const token = getItem('token');
 
@@ -25,29 +25,23 @@ export default function ModalDeleteTransaction({
 
       if (response.status > 204) return;
 
-      const updateTransactions = defaultTransactions.filter((transaction) => {
-        return transaction.id !== transaction_id;
-      });
-
-      setCurrentTransactions([...updateTransactions]);
-
-      let cashIn = 0;
-      let cashOut = 0;
-
-      currentTransactions.forEach((transaction) => {
-        if (transaction.transaction_type === 'entrada') {
-          cashIn += transaction.amount;
-        } else if (transaction.transaction_type === 'saída') {
-          cashOut += transaction.amount;
+      const updatedDefaultTransactions = defaultTransactions.filter(
+        (transaction) => {
+          return transaction.id !== transaction_id;
         }
-      });
+      );
 
-      setStatement({
-        cashIn: formatNumberToMoney(cashIn),
-        cashOut: formatNumberToMoney(cashOut),
-        balance: formatNumberToMoney(cashIn - cashOut),
-      });
-      
+      const updatedCurrentTransactions = currentTransactions.filter(
+        (transaction) => {
+          return transaction.id !== transaction_id;
+        }
+      );
+
+      setDefaultTransactions([...updatedDefaultTransactions]);
+      setCurrentTransactions([...updatedCurrentTransactions]);
+
+      loadUserStatement();
+
       setOpenDeleteTransaction(false);
     } catch (error) {
       console.log(error.response.message);

@@ -30,6 +30,7 @@ export default function FilterCategories({
     });
 
     setCategories([...allCategories]);
+    setCurrentTransactions([...defaultTransactions]);
   }
 
   function handleApplyFilter() {

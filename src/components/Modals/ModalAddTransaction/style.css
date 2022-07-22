@@ -1,0 +1,189 @@
+.add-transaction {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(61, 61, 61, 0.48);
+
+  width: 100%;
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: 'Rubik';
+}
+
+.add-transaction__container {
+  width: 80%;
+  max-width: 500px;
+  max-height: 95vh;
+
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 50px;
+  padding: 48px 50px;
+  border-radius: 20px;
+
+  background: #ffffff;
+}
+
+.add-transaction__header {
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 2.5rem;
+  margin-bottom: 5%;
+}
+
+.add-transaction__header h1 {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 3.2rem;
+  line-height: 4.3rem;
+}
+
+.add-transaction__btn-close {
+  cursor: pointer;
+
+  position: absolute;
+  top: 25px;
+  right: 25px;
+}
+
+.add-transaction__select-type {
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-bottom: 2rem;
+}
+
+.add-transaction__select-type button {
+  cursor: pointer;
+
+  width: 50%;
+  height: 40px;
+
+  border: none;
+
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1.4rem;
+  line-height: 1.7rem;
+
+  color: #ffffff;
+}
+
+.add-transaction__cash-in,
+.add-transaction__cash-out {
+  background-color: #b9b9b9;
+}
+
+.add-transaction__cash-in {
+  border-radius: 10px 0px 0px 10px;
+}
+
+.add-transaction__cash-out {
+  border-radius: 0px 10px 10px 0px;
+}
+
+.add-transaction__cash-in--selected {
+  background-color: #3a9ff1;
+  border-radius: 10px 0px 0px 10px;
+}
+
+.add-transaction__cash-out--selected {
+  background-color: #ff576b;
+  border-radius: 0px 10px 10px 0px;
+}
+
+.add-transaction__form {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.add-transaction__form label {
+  margin-bottom: 1rem;
+
+  font-weight: 500;
+  font-size: 2.4rem;
+
+  color: #484848;
+}
+
+.add-transaction__form input {
+  width: 100%;
+  height: 40px;
+
+  padding: 0 15px;
+  margin-bottom: 2%;
+
+  border-radius: 5px;
+  border: 1px solid #484848;
+
+  font-size: 1.8rem;
+  color: #484848;
+}
+
+.add-transaction__form select {
+  width: 100%;
+  height: 40px;
+
+  padding: 0 15px;
+  margin-bottom: 2%;
+
+  border-radius: 5px;
+  border: 1px solid #484848;
+
+  appearance: none;
+  background-image: url('../../../assets/arrow-select.svg');
+  background-repeat: no-repeat;
+  background-position: calc(100% - 19px);
+
+  font-size: 1.8rem;
+
+  color: #484848;
+}
+
+.add-transaction__form button {
+  cursor: pointer;
+
+  width: 60%;
+
+  align-self: center;
+
+  margin-top: 5%;
+  margin-bottom: 5%;
+  padding: 12px 0;
+
+  border: none;
+  border-radius: 5px;
+
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+
+  background-color: #7978d9;
+  color: #ffffff;
+}
+
+.add-transaction__error {
+  font-size: 1.2rem;
+
+  color: #ff0000;
+}

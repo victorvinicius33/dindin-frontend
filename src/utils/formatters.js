@@ -5,7 +5,7 @@ export function formatNumberToMoney(valueInCents) {
   formatedValue = formatedValue.replace(/(\d)(\d{5})$/, '$1.$2');
   formatedValue = formatedValue.replace(/(\d)(\d{2})$/, '$1,$2');
 
-  return `R$ ${formatedValue}`;
+  return valueInCents >= 0 ? `R$ ${formatedValue}` : `R$ -${formatedValue}`;
 }
 
 export function formatDate(date) {

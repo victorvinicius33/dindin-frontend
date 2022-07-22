@@ -2,12 +2,12 @@
 import './style.css';
 import { useEffect, useState } from 'react';
 import Header from '../../components/Header';
-import AdicionarRegistro from '../../components/AdicionarRegistro/index';
+import ModalAddTransaction from '../../components/Modals/ModalAddTransaction/index';
 import ModalEditProfile from '../../components/Modals/ModalEditProfile/index';
 import FilterCategories from '../../components/FilterCategories';
 import TableTransactions from '../../components/TableTransactions';
 import ModalDeleteTransaction from '../../components/Modals/ModalDeleteTransaction';
-import ResumeStatements from '../../components/ResumeStatements';
+import StatementSummary from '../../components/StatementSummary';
 import api from '../../services/api';
 import { getItem, setItem } from '../../utils/localStorage';
 import { formatNumberToMoney } from '../../utils/formatters';
@@ -66,28 +66,6 @@ function Home() {
       }
     }
 
-    async function loadUserStatement() {
-      try {
-        const response = await api.get('/transacao/extrato', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (response.status > 204) return;
-
-        const formatedStatement = {
-          cashIn: formatNumberToMoney(response.data.cashIn),
-          cashOut: formatNumberToMoney(response.data.cashOut),
-          balance: formatNumberToMoney(response.data.cashOut),
-        };
-
-        setStatement({ ...formatedStatement });
-      } catch (error) {
-        console.log(error.response.data.message);
-      }
-    }
-
     async function loadCategories() {
       try {
         const response = await api.get('/categoria', {
@@ -114,6 +92,35 @@ function Home() {
     loadCategories();
   }, []);
 
+  async function loadUserStatement() {
+    try {
+      const response = await api.get('/transacao/extrato', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status > 204) return;
+
+      const formatedStatement = {
+        cashIn: formatNumberToMoney(response.data.cashIn),
+        cashOut: formatNumberToMoney(response.data.cashOut),
+        balance: formatNumberToMoney(
+          response.data.cashIn - response.data.cashOut
+        ),
+      };
+
+      formatedStatement.balanceStatus =
+        response.data.cashIn - response.data.cashOut < 0
+          ? 'negativo'
+          : 'positivo';
+
+      setStatement({ ...formatedStatement });
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
+  }
+
   return (
     <div className='main__container'>
       <Header setOpenEditProfile={setOpenEditProfile} />
@@ -137,17 +144,23 @@ function Home() {
         </section>
 
         <section className='main__right'>
-          <ResumeStatements
+          <StatementSummary
             statement={statement}
             setOpenModalAddRegister={setOpenModalAddRegister}
+            loadUserStatement={loadUserStatement}
           />
         </section>
       </main>
 
       {openModalAddRegister && (
-        <AdicionarRegistro
+        <ModalAddTransaction
           setOpenModalAddRegister={setOpenModalAddRegister}
           categories={categories}
+          defaultTransactions={defaultTransactions}
+          setDefaultTransactions={setDefaultTransactions}
+          currentTransactions={currentTransactions}
+          setCurrentTransactions={setCurrentTransactions}
+          loadUserStatement={loadUserStatement}
         />
       )}
       {openEditProfile && (
@@ -162,9 +175,10 @@ function Home() {
           transaction_id={transactionId}
           setOpenDeleteTransaction={setOpenDeleteTransaction}
           defaultTransactions={defaultTransactions}
+          setDefaultTransactions={setDefaultTransactions}
           currentTransactions={currentTransactions}
           setCurrentTransactions={setCurrentTransactions}
-          setStatement={setStatement}
+          loadUserStatement={loadUserStatement}
         />
       )}
     </div>

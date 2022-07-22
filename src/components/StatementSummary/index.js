@@ -1,6 +1,6 @@
 import './style.css';
 
-export default function ResumeStatements({
+export default function StatementSummary({
   statement,
   setOpenModalAddRegister,
 }) {
@@ -19,7 +19,15 @@ export default function ResumeStatements({
         <hr />
         <div className='statement-summary__balance'>
           <span>Saldo</span>
-          <p>{statement.balance}</p>
+          <p
+            className={
+              statement.balanceStatus === 'negativo'
+                ? 'statement-summary__negative-balance'
+                : 'statement-summary__positive-balance'
+            }
+          >
+            {statement.balance}
+          </p>
         </div>
       </div>
 
