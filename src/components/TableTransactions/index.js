@@ -10,7 +10,7 @@ export default function TableTransactions({
   setCurrentTransactions,
   categories,
   setOpenDeleteTransaction,
-  setTransactionId
+  setTransactionId,
 }) {
   const [sortByDate, setSortByDate] = useState('ascending');
   const daysOfTheWeek = [
@@ -99,7 +99,15 @@ export default function TableTransactions({
             <td>{getDayOfTheWeek(transaction.date)}</td>
             <td>{transaction.description}</td>
             <td>{getTransactionCategory(transaction.category_id)}</td>
-            <td>{formatNumberToMoney(transaction.amount)}</td>
+            <td
+              className={`table-transactions__transaction-amount${
+                transaction.transaction_type === 'entrada'
+                  ? '--blue'
+                  : '--yellow'
+              }`}
+            >
+              {formatNumberToMoney(transaction.amount)}
+            </td>
             <td>
               <img src={Pencil} alt='editar' />
               <img
@@ -111,7 +119,6 @@ export default function TableTransactions({
           </tr>
         ))}
       </tbody>
-      
     </table>
   );
 }

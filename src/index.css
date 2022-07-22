@@ -26,6 +26,12 @@ code {
     monospace;
 }
 
+@media screen and (max-width: 1024px) {
+  html {
+    font-size: 50%;
+  }
+}
+
 .text-decoration-none {
   text-decoration: none;
 }

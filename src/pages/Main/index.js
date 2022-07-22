@@ -10,6 +10,7 @@ import EditarPerfil from '../../components/EditarPerfil/index';
 import FilterCategories from '../../components/FilterCategories';
 import TableTransactions from '../../components/TableTransactions';
 import ModalDeleteTransaction from '../../components/Modals/ModalDeleteTransaction';
+import ResumeStatements from '../../components/ResumeStatements';
 
 function Home() {
   const token = getItem('token');
@@ -18,7 +19,7 @@ function Home() {
   const [categories, setCategories] = useState([]);
   const [statement, setStatement] = useState({});
   const [profileData, setProfileData] = useState({});
-  const [mostrarAddRegistro, setMostrarAddRegistro] = useState(false);
+  const [openModalAddRegister, setOpenModalAddRegister] = useState(false);
   const [openEditProfile, setOpenEditProfile] = useState(false);
   const [openDeleteTransaction, setOpenDeleteTransaction] = useState(false);
   const [transactionId, setTransactionId] = useState(null);
@@ -32,9 +33,7 @@ function Home() {
           },
         });
 
-        if (response.status > 204) {
-          return;
-        }
+        if (response.status > 204) return;
 
         const profileName = response.data.name.split(' ');
 
@@ -77,7 +76,13 @@ function Home() {
 
         if (response.status > 204) return;
 
-        setStatement({ ...response.data });
+        const formatedStatement = {
+          cashIn: formatNumberToMoney(response.data.cashIn),
+          cashOut: formatNumberToMoney(response.data.cashOut),
+          balance: formatNumberToMoney(response.data.cashOut),
+        };
+
+        setStatement({ ...formatedStatement });
       } catch (error) {
         console.log(error.response.data.message);
       }
@@ -113,8 +118,8 @@ function Home() {
     <div className='main__container'>
       <Header setOpenEditProfile={setOpenEditProfile} />
 
-      <div className='main__content'>
-        <div className='main__left'>
+      <main className='main__content'>
+        <section className='main__left'>
           <FilterCategories
             categories={categories}
             setCategories={setCategories}
@@ -129,37 +134,22 @@ function Home() {
             setTransactionId={setTransactionId}
             setOpenDeleteTransaction={setOpenDeleteTransaction}
           />
-        </div>
-        <div className='resumo-container'>
-          <div className='resumo'>
-            <h2>Resumo</h2>
-            <div className='resumo-entrada'>
-              <span>Entradas</span>
-              <p>{formatNumberToMoney(statement.cashIn)}</p>
-            </div>
-            <div className='resumo-saida'>
-              <span>Saídas</span>
-              <p>{formatNumberToMoney(statement.cashOut)}</p>
-            </div>
-            <hr />
-            <div className='resumo-saldo'>
-              <span>Saldo</span>
-              <p>{formatNumberToMoney(statement.cashIn - statement.cashOut)}</p>
-            </div>
-          </div>
+        </section>
 
-          <button onClick={() => setMostrarAddRegistro(true)}>
-            Adicionar Registro
-          </button>
-          {mostrarAddRegistro && (
-            <AdicionarRegistro
-              setMostrarAddRegistro={setMostrarAddRegistro}
-              categorias={categories}
-            />
-          )}
-        </div>
-      </div>
+        <section className='main__right'>
+          <ResumeStatements
+            statement={statement}
+            setOpenModalAddRegister={setOpenModalAddRegister}
+          />
+        </section>
+      </main>
 
+      {openModalAddRegister && (
+        <AdicionarRegistro
+          setOpenModalAddRegister={setOpenModalAddRegister}
+          categories={categories}
+        />
+      )}
       {openEditProfile && (
         <EditarPerfil
           setOpenEditProfile={setOpenEditProfile}
@@ -172,7 +162,9 @@ function Home() {
           transaction_id={transactionId}
           setOpenDeleteTransaction={setOpenDeleteTransaction}
           defaultTransactions={defaultTransactions}
+          currentTransactions={currentTransactions}
           setCurrentTransactions={setCurrentTransactions}
+          setStatement={setStatement}
         />
       )}
     </div>

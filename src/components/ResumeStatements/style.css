@@ -1,0 +1,89 @@
+.statement-summary__container {
+  width: 100%;
+  min-width: 236px;
+
+  font-family: 'Rubik', sans-serif;
+}
+
+.statement-summary__box {
+  padding: 26px 33px 21px 33px;
+
+  border-radius: 10px;
+
+  box-shadow: 0px 2px 11px rgba(0, 0, 0, 0.1);
+  background-color: #fafafa;
+}
+
+.statement-summary__box h2 {
+  margin-bottom: 23px;
+
+  font-weight: 700;
+  font-size: 1.8rem;
+}
+
+.statement-summary__cash-in,
+.statement-summary__cash-out {
+  display: flex;
+  justify-content: space-between;
+
+  margin-bottom: 12px;
+}
+
+.statement-summary__cash-in span,
+.statement-summary__cash-out span,
+.statement-summary__cash-in p,
+.statement-summary__cash-out p {
+  font-size: 1.3rem;
+  font-weight: 500;
+  line-height: 1.5rem;
+}
+
+.statement-summary__cash-in p {
+  color: #645ffb;
+}
+
+.statement-summary__cash-out p {
+  color: #fa8c10;
+}
+
+.statement-summary__box hr {
+  opacity: 20%;
+  margin-top: 7px;
+  margin-bottom: 16px;
+}
+
+.statement-summary__balance {
+  display: flex;
+  justify-content: space-between;
+
+  font-size: 1.4rem;
+  line-height: 1.7rem;
+}
+
+.statement-summary__balance span {
+  font-weight: 700;
+}
+
+.statement-summary__balance p {
+  font-weight: 500;
+
+  color: #3a9ff1;
+}
+
+.statement-summary__btn-add-register {
+  width: 100%;
+  cursor: pointer;
+
+  padding: 14px 0;
+  margin-top: 16px;
+
+  font-family: 'Rubik', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+
+  border: none;
+  border-radius: 5px;
+
+  background-color: #7978d9;
+  color: #ffffff;
+}

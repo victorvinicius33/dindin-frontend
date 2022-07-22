@@ -45,6 +45,23 @@
   transform: rotate(180deg);
 }
 
+.table-transactions__transaction-amount--blue,
+.table-transactions__transaction-amount--yellow {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1.4rem;
+  line-height: 1.7rem;
+}
+
+.table-transactions__transaction-amount--blue {
+  color: #7B61FF;
+}
+
+.table-transactions__transaction-amount--yellow {
+  color: #FA8C10;
+}
+
 .table-transactions tbody tr img {
   cursor: pointer;
 }

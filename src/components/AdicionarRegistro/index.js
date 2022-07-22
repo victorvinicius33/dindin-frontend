@@ -4,7 +4,7 @@ import { useState } from 'react';
 import api from '../../services/api';
 import { getItem } from '../../utils/localStorage';
 
-export default function ModalAdicionarRegistro({ setMostrarAddRegistro, categorias }) {
+export default function ModalAdicionarRegistro({ setOpenModalAddRegister, categories }) {
     const [valor, setValor] = useState('');
     const [tipo, setTipo] = useState('saida');
     const [categoriaSelecionada, setCategoriaSelecionada] = useState(0);
@@ -31,7 +31,7 @@ export default function ModalAdicionarRegistro({ setMostrarAddRegistro, categori
 
             if (response.status > 204) return;
 
-            setMostrarAddRegistro(false);
+            setOpenModalAddRegister(false);
             window.location.reload();
         } catch (error) {
             console.log(error);
@@ -48,7 +48,7 @@ export default function ModalAdicionarRegistro({ setMostrarAddRegistro, categori
                         className='btn-close'
                         src={Close}
                         alt='Botão de fechar'
-                        onClick={() => setMostrarAddRegistro(false)}
+                        onClick={() => setOpenModalAddRegister(false)}
                     />
                 </div>
 
@@ -65,7 +65,7 @@ export default function ModalAdicionarRegistro({ setMostrarAddRegistro, categori
                     <select id='categoria' className='seletor-categoria' onChange={(e) => setCategoriaSelecionada(e.target.value)}>
                         <option key={0} value=''></option>
                     {
-                        categorias.map((categoria) => {
+                        categories.map((categoria) => {
                             return <option key={categoria.id} value={String(categoria.id)}>{categoria.descricao}</option>
                         })
                     }

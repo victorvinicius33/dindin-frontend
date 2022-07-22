@@ -3,28 +3,51 @@ import CloseIcon from '../../../assets/close-icon.svg';
 import AlertYellowIcon from '../../../assets/alert-yellow-icon.svg';
 import api from '../../../services/api';
 import { getItem } from '../../../utils/localStorage';
+import { formatNumberToMoney } from '../../../utils/formatters';
 
 export default function ModalDeleteTransaction({
   transaction_id,
   setOpenDeleteTransaction,
   defaultTransactions,
+  currentTransactions,
   setCurrentTransactions,
+  setStatement,
 }) {
   const token = getItem('token');
 
   async function handleDeleteTransaction() {
     try {
-      await api.delete(`/transacao/${transaction_id}`, {
+      const response = await api.delete(`/transacao/${transaction_id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+
+      if (response.status > 204) return;
 
       const updateTransactions = defaultTransactions.filter((transaction) => {
         return transaction.id !== transaction_id;
       });
 
       setCurrentTransactions([...updateTransactions]);
+
+      let cashIn = 0;
+      let cashOut = 0;
+
+      currentTransactions.forEach((transaction) => {
+        if (transaction.transaction_type === 'entrada') {
+          cashIn += transaction.amount;
+        } else if (transaction.transaction_type === 'saída') {
+          cashOut += transaction.amount;
+        }
+      });
+
+      setStatement({
+        cashIn: formatNumberToMoney(cashIn),
+        cashOut: formatNumberToMoney(cashOut),
+        balance: formatNumberToMoney(cashIn - cashOut),
+      });
+      
       setOpenDeleteTransaction(false);
     } catch (error) {
       console.log(error.response.message);
