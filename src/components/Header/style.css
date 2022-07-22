@@ -3,13 +3,13 @@ header {
   height: 224px;
   background: linear-gradient(90.23deg, #05ede3 0.02%, #645ffb 99.63%);
 
-  padding: 40px 50px;
+  padding: 30px 50px;
 }
 
 .header__container {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .header__logo {

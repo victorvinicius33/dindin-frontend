@@ -1,16 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import './style.css';
+import { useEffect, useState } from 'react';
 import Header from '../../components/Header';
 import AdicionarRegistro from '../../components/AdicionarRegistro/index';
-import { formatNumberToMoney } from '../../utils/formatters';
-import { useEffect, useState } from 'react';
-import api from '../../services/api';
-import { getItem, setItem } from '../../utils/localStorage';
-import EditarPerfil from '../../components/EditarPerfil/index';
+import ModalEditProfile from '../../components/Modals/ModalEditProfile/index';
 import FilterCategories from '../../components/FilterCategories';
 import TableTransactions from '../../components/TableTransactions';
 import ModalDeleteTransaction from '../../components/Modals/ModalDeleteTransaction';
 import ResumeStatements from '../../components/ResumeStatements';
+import api from '../../services/api';
+import { getItem, setItem } from '../../utils/localStorage';
+import { formatNumberToMoney } from '../../utils/formatters';
 
 function Home() {
   const token = getItem('token');
@@ -151,7 +151,7 @@ function Home() {
         />
       )}
       {openEditProfile && (
-        <EditarPerfil
+        <ModalEditProfile
           setOpenEditProfile={setOpenEditProfile}
           profileData={profileData}
           setProfileData={setProfileData}

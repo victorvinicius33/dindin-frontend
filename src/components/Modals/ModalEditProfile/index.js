@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import './style.css';
-import Close from '../../assets/close.svg';
+import Close from '../../../assets/close.svg';
 import { useState } from 'react';
-import api from '../../services/api';
-import { getItem, setItem } from '../../utils/localStorage';
+import api from '../../../services/api';
+import { getItem, setItem } from '../../../utils/localStorage';
 
-export default function ModalEditarPerfil({
+export default function ModalEditProfile({
   setOpenEditProfile,
   profileData,
   setProfileData,
@@ -17,7 +17,7 @@ export default function ModalEditarPerfil({
   const [error, setError] = useState('');
   const token = getItem('token');
 
-  async function lidarComEditarPerfil(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     try {
@@ -63,7 +63,7 @@ export default function ModalEditarPerfil({
             />
           </div>
 
-          <form className='edit-profile__form' onSubmit={lidarComEditarPerfil}>
+          <form className='edit-profile__form' onSubmit={handleSubmit}>
             <label htmlFor='name'>Nome</label>
             <input
               value={name}
