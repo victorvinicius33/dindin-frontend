@@ -9,11 +9,21 @@ import ModalEditProfile from '../../components/Modals/ModalEditProfile/index';
 import ModalAddTransaction from '../../components/Modals/ModalAddTransaction/index';
 import ModalEditTransaction from '../../components/Modals/ModalEditTransaction';
 import ModalDeleteTransaction from '../../components/Modals/ModalDeleteTransaction';
+import ModalSuccess from '../../components/Modals/ModalSuccess';
+import AlertToast from '../../components/AlertToast';
+import useGlobal from '../../hooks/useGlobal';
 import api from '../../services/api';
-import { getItem, setItem } from '../../utils/localStorage';
+import { getItem, setItem, clear } from '../../utils/localStorage';
 import { formatNumberToMoney } from '../../utils/formatters';
 
 function Home() {
+  const {
+    setLoadingProgress,
+    setSnackbarOpen,
+    setErrorAlert,
+    setMessageAlert,
+    openModalSuccess,
+  } = useGlobal();
   const token = getItem('token');
   const [defaultTransactions, setDefaultTransactions] = useState([]);
   const [currentTransactions, setCurrentTransactions] = useState([]);
@@ -22,12 +32,9 @@ function Home() {
   const [profileData, setProfileData] = useState({});
   const [openModalAddTransaction, setOpenModalAddTransaction] = useState(false);
   const [openModalEditProfile, setOpenModalEditProfile] = useState(false);
-  const [openModalDeleteTransaction, setOpenModalDeleteTransaction] =
-    useState(false);
-  const [openModalEditTransaction, setOpenModalEditTransaction] =
-    useState(false);
+  const [openModalDeleteTransaction, setOpenModalDeleteTransaction] = useState(false);
+  const [openModalEditTransaction, setOpenModalEditTransaction] = useState(false);
   const [transactionId, setTransactionId] = useState(null);
-  const [transactionToEdit, setTransactionToEdit] = useState({});
 
   useEffect(() => {
     async function loadProfile() {
@@ -46,7 +53,7 @@ function Home() {
 
         setProfileData({ ...response.data });
       } catch (error) {
-        console.log(error.response.data.message);
+        handleApiError(error);
       }
     }
 
@@ -67,7 +74,7 @@ function Home() {
         setDefaultTransactions([...sortedArray]);
         setCurrentTransactions([...sortedArray]);
       } catch (error) {
-        console.log(error.response.data.message);
+        handleApiError(error);
       }
     }
 
@@ -87,14 +94,18 @@ function Home() {
 
         setCategories([...response.data]);
       } catch (error) {
-        console.log(error.response.data.message);
+        handleApiError(error);
       }
     }
+
+    setLoadingProgress(true);
 
     loadProfile();
     loadTransactions();
     loadUserStatement();
     loadCategories();
+
+    setLoadingProgress(false);
   }, []);
 
   async function loadUserStatement() {
@@ -122,8 +133,29 @@ function Home() {
 
       setStatement({ ...formatedStatement });
     } catch (error) {
-      console.log(error.response.data.message);
+      handleApiError(error);
     }
+  }
+
+  function handleApiError(error) {
+    if (error.response.data === 'jwt expired') {
+      clear();
+      setMessageAlert('Sessão expirada, faça login novamente.');
+      setErrorAlert(true);
+      setSnackbarOpen(true);
+      return;
+    }
+
+    if (error.response.status >= 500) {
+      setMessageAlert('Erro interno, por favor tente novamente.');
+      setErrorAlert(true);
+      setSnackbarOpen(true);
+      return;
+    }
+
+    setMessageAlert(error.response.data);
+    setErrorAlert(true);
+    setSnackbarOpen(true);
   }
 
   return (
@@ -146,7 +178,6 @@ function Home() {
             setOpenModalEditTransaction={setOpenModalEditTransaction}
             setOpenModalDeleteTransaction={setOpenModalDeleteTransaction}
             setTransactionId={setTransactionId}
-            setTransactionToEdit={setTransactionToEdit}
           />
         </section>
 
@@ -203,6 +234,10 @@ function Home() {
           loadUserStatement={loadUserStatement}
         />
       )}
+
+      {openModalSuccess && <ModalSuccess />}
+
+      <AlertToast />
     </div>
   );
 }

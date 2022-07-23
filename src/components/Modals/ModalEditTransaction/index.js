@@ -1,11 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import './style.css';
 import { useEffect, useState } from 'react';
-import Select from 'react-select';
 import Close from '../../../assets/close.svg';
-import { ValidationAddTransactionForm } from '../../../validations/validationAddTransactionForm';
+import MaskedInputMoney from '../../MaskedInputMoney';
+import { ValidationTransactionForm } from '../../../validations/validationTransactionForm';
 import api from '../../../services/api';
-import { getItem } from '../../../utils/localStorage';
-import { formatDate, formatNumberToMoney } from '../../../utils/formatters';
+import { getItem, clear } from '../../../utils/localStorage';
+import {
+  formatDate,
+  formatNumberToMoney,
+  maskMoneyToNumber,
+} from '../../../utils/formatters';
+import useGlobal from '../../../hooks/useGlobal';
 
 export default function ModalEditTransaction({
   transactionId,
@@ -17,6 +23,14 @@ export default function ModalEditTransaction({
   setDefaultTransactions,
   loadUserStatement,
 }) {
+  const {
+    setOpenModalSuccess,
+    setSuccessMessage,
+    setLoadingProgress,
+    setMessageAlert,
+    setErrorAlert,
+    setSnackbarOpen,
+  } = useGlobal();
   const token = getItem('token');
   const [amount, setAmount] = useState(0);
   const [transaction_type, setTransaction_type] = useState('saída');
@@ -24,18 +38,18 @@ export default function ModalEditTransaction({
   const [date, setDate] = useState('');
   const [description, setDescription] = useState('');
   const [error, setError] = useState(true);
-  
+
   async function handleSubmit(e) {
     e.preventDefault();
 
     setError('');
-    console.log(amount)
+
     if (!amount) {
-       return setError('O campo valor é obrigatório.');
+      return setError('O campo valor é obrigatório.');
     }
 
-    const formValidation = await ValidationAddTransactionForm({
-      amount,
+    const formValidation = await ValidationTransactionForm({
+      amount: maskMoneyToNumber(amount),
       date: new Date(date),
     });
 
@@ -44,10 +58,12 @@ export default function ModalEditTransaction({
     }
 
     try {
+      setLoadingProgress(true);
+
       const response = await api.put(
         `/transacao/${transactionId}`,
         {
-          amount,
+          amount: maskMoneyToNumber(amount),
           transaction_type,
           category_id,
           date: new Date(date),
@@ -62,33 +78,37 @@ export default function ModalEditTransaction({
 
       if (response.status > 204) return;
 
-      const updatedCurrentTransactions = currentTransactions.map((transaction) => {
-        if (transaction.id === transactionId) {
-          transaction.amount = amount;
-          transaction.transaction_type = transaction_type;
-          transaction.category_id = category_id;
-          transaction.date = new Date(date);
-          transaction.description = description;
+      const updatedCurrentTransactions = currentTransactions.map(
+        (transaction) => {
+          if (transaction.id === transactionId) {
+            transaction.amount = maskMoneyToNumber(amount);
+            transaction.transaction_type = transaction_type;
+            transaction.category_id = category_id;
+            transaction.date = new Date(date);
+            transaction.description = description;
+
+            return transaction;
+          }
 
           return transaction;
         }
+      );
 
-        return transaction;
-      });
+      const updatedDefaultTransactions = defaultTransactions.map(
+        (transaction) => {
+          if (transaction.id === transactionId) {
+            transaction.amount = maskMoneyToNumber(amount);
+            transaction.transaction_type = transaction_type;
+            transaction.category_id = category_id;
+            transaction.date = new Date(date);
+            transaction.description = description;
 
-      const updatedDefaultTransactions = defaultTransactions.map((transaction) => {
-        if (transaction.id === transactionId) {
-          transaction.amount = amount;
-          transaction.transaction_type = transaction_type;
-          transaction.category_id = category_id;
-          transaction.date = new Date(date);
-          transaction.description = description;
+            return transaction;
+          }
 
           return transaction;
         }
-
-        return transaction;
-      });
+      );
 
       setCurrentTransactions([...updatedCurrentTransactions]);
       setDefaultTransactions([...updatedDefaultTransactions]);
@@ -96,39 +116,69 @@ export default function ModalEditTransaction({
       loadUserStatement();
 
       setOpenModalEditTransaction(false);
+
+      setSuccessMessage('Usuário editado com sucesso!');
+      setOpenModalSuccess(true);
     } catch (error) {
-      if (error.response.status < 500) {
-        setError(error.response.data.message);
-      }
+      handleApiError(error);
+    } finally {
+      setLoadingProgress(false);
     }
   }
 
   useEffect(() => {
     async function loadTransaction() {
       try {
+        setLoadingProgress(true);
+
         const response = await api.get(`/transacao/${transactionId}`, {
           headers: {
             Authorization: token,
           },
         });
-        
+
         if (response.status > 204) return;
 
-        const [ day, month, year] = formatDate(response.data.date).split('/');
+        const [day, month, year] = formatDate(response.data.date).split('/');
 
         const select = document.querySelector('#category');
         select.value = response.data.category_id;
 
-        setAmount(response.data.amount);
-        setCategory_id(response.data.category_id);
+        setTransaction_type(response.data.transaction_type);
+        setAmount(formatNumberToMoney(response.data.amount));
         setDate(`${year}-${month}-${day}`);
+        setCategory_id(response.data.category_id);
+        setDescription(response.data.description);
       } catch (error) {
-        console.log(error);
+        handleApiError(error);
+      } finally {
+        setLoadingProgress(false);
       }
     }
 
     loadTransaction();
   }, []);
+
+  function handleApiError(error) {
+    if (error.response.data === 'jwt expired') {
+      clear();
+      setMessageAlert('Sessão expirada, faça login novamente.');
+      setErrorAlert(true);
+      setSnackbarOpen(true);
+      return;
+    }
+
+    if (error.response.status >= 500) {
+      setMessageAlert('Erro interno, por favor tente novamente.');
+      setErrorAlert(true);
+      setSnackbarOpen(true);
+      return;
+    }
+
+    setMessageAlert(error.response.data);
+    setErrorAlert(true);
+    setSnackbarOpen(true);
+  }
 
   return (
     <div className='edit-transaction'>
@@ -164,12 +214,10 @@ export default function ModalEditTransaction({
 
         <form className='edit-transaction__form' onSubmit={handleSubmit}>
           <label htmlFor='amount'>Valor</label>
-          <input
+          <MaskedInputMoney
             name='amount'
             id='amount'
-            type='text'
-            placeholder='R$ 0,00'
-            onChange={(e) => setAmount(e.target.value)}
+            setValue={setAmount}
             value={amount}
           />
 
@@ -193,8 +241,8 @@ export default function ModalEditTransaction({
             name='date'
             id='date'
             type='date'
-            min="1000-01-01"
-            max="9999-01-01"
+            min='1900-01-01'
+            max='2100-01-01'
             onChange={(e) => setDate(e.target.value)}
             value={date}
           />

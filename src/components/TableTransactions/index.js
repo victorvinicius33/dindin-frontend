@@ -105,7 +105,7 @@ export default function TableTransactions({
           <tr key={transaction.id}>
             <td>{formatDate(transaction.date)}</td>
             <td>{getDayOfTheWeek(transaction.date)}</td>
-            <td>{transaction.description}</td>
+            <td>{transaction.description ? transaction.description : '-'}</td>
             <td>{getTransactionCategory(transaction.category_id)}</td>
             <td
               className={`table-transactions__transaction-amount${

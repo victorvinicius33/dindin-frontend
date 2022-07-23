@@ -19,7 +19,10 @@
 .edit-profile__container {
   width: 80%;
   max-width: 500px;
+  height: 600px;
   max-height: 95vh;
+
+  overflow-y: scroll;
 
   position: relative;
 
@@ -28,10 +31,14 @@
   align-items: center;
   justify-content: center;
 
-  padding: 48px 50px;
+  padding: 0 50px;
   border-radius: 20px;
 
   background: #ffffff;
+}
+
+.edit-profile__container::-webkit-scrollbar {
+  display: none;
 }
 
 .edit-profile__header {

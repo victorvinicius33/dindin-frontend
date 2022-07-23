@@ -8,6 +8,12 @@ export function formatNumberToMoney(valueInCents) {
   return valueInCents >= 0 ? `R$ ${formatedValue}` : `R$ -${formatedValue}`;
 }
 
+export function maskMoneyToNumber(str) {
+  if (!str) return 0;
+
+  return Number(str.replace(/\D/g, ''));
+}
+
 export function formatDate(date) {
   const currentDate = new Date(date);
 

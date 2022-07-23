@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-export async function ValidationAddTransactionForm(form) {
+export async function ValidationTransactionForm(form) {
   const schema = yup.object().shape({
     date: yup.date().nullable().typeError('Insira um formato de data válido.'),
     amount: yup

@@ -1,9 +1,12 @@
 import './style.css';
 import { useState } from 'react';
 import Close from '../../../assets/close.svg';
-import { ValidationAddTransactionForm } from '../../../validations/validationAddTransactionForm';
+import MaskedInputMoney from '../../MaskedInputMoney';
+import { ValidationTransactionForm } from '../../../validations/validationTransactionForm';
 import api from '../../../services/api';
-import { getItem } from '../../../utils/localStorage';
+import { getItem, clear } from '../../../utils/localStorage';
+import { maskMoneyToNumber } from '../../../utils/formatters';
+import useGlobal from '../../../hooks/useGlobal';
 
 export default function ModalAddTransaction({
   setOpenModalAddTransaction,
@@ -14,8 +17,16 @@ export default function ModalAddTransaction({
   setDefaultTransactions,
   loadUserStatement,
 }) {
+  const {
+    setOpenModalSuccess,
+    setSuccessMessage,
+    setLoadingProgress,
+    setMessageAlert,
+    setErrorAlert,
+    setSnackbarOpen,
+  } = useGlobal();
   const token = getItem('token');
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState('');
   const [transaction_type, setTransaction_type] = useState('saída');
   const [category_id, setCategory_id] = useState(1);
   const [date, setDate] = useState('');
@@ -30,8 +41,8 @@ export default function ModalAddTransaction({
     const [day, month, year] = date.split('/');
     const formatedDate = new Date(`${year}-${month}-${day}`);
 
-    const formValidation = await ValidationAddTransactionForm({
-      amount,
+    const formValidation = await ValidationTransactionForm({
+      amount: maskMoneyToNumber(amount),
       date: formatedDate,
     });
 
@@ -40,10 +51,12 @@ export default function ModalAddTransaction({
     }
 
     try {
+      setLoadingProgress(true);
+
       const response = await api.post(
         '/transacao',
         {
-          amount,
+          amount: maskMoneyToNumber(amount),
           transaction_type,
           category_id,
           date: formatedDate,
@@ -64,13 +77,30 @@ export default function ModalAddTransaction({
       loadUserStatement();
 
       setOpenModalAddTransaction(false);
+      setSuccessMessage('Registro adicionado com sucesso!');
+      setOpenModalSuccess(true);
     } catch (error) {
-      if (error.response.status < 500) {
-        setError(error.response.data.message);
+      if (error.response.data === 'jwt expired') {
+        clear();
+        setMessageAlert('Sessão expirada, faça login novamente.');
+        setErrorAlert(true);
+        setSnackbarOpen(true);
+        return;
       }
+
+      if (error.response.status >= 500) {
+        setMessageAlert('Erro interno, por favor tente novamente.');
+        setErrorAlert(true);
+        setSnackbarOpen(true);
+        return;
+      }
+
+      setError(error.response.data);
+    } finally {
+      setLoadingProgress(false);
     }
   }
-
+  
   return (
     <div className='add-transaction'>
       <div className='add-transaction__container'>
@@ -105,12 +135,11 @@ export default function ModalAddTransaction({
 
         <form className='add-transaction__form' onSubmit={handleSubmit}>
           <label htmlFor='amount'>Valor</label>
-          <input
+          <MaskedInputMoney
             name='amount'
             id='amount'
-            type='text'
-            placeholder='R$ 0,00'
-            onChange={(e) => setAmount(e.target.value)}
+            value={amount}
+            setValue={setAmount}
           />
 
           <label htmlFor='category'>Categoria</label>
@@ -132,7 +161,9 @@ export default function ModalAddTransaction({
           <input
             name='date'
             id='date'
-            type='text'
+            type='date'
+            min="1900-01-01"
+            max="2100-01-01"
             onChange={(e) => setDate(e.target.value)}
           />
 

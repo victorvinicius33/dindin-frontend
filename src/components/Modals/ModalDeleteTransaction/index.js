@@ -2,7 +2,8 @@ import './style.css';
 import CloseIcon from '../../../assets/close-icon.svg';
 import AlertYellowIcon from '../../../assets/alert-yellow-icon.svg';
 import api from '../../../services/api';
-import { getItem } from '../../../utils/localStorage';
+import { getItem, clear } from '../../../utils/localStorage';
+import useGlobal from '../../../hooks/useGlobal';
 
 export default function ModalDeleteTransaction({
   transaction_id,
@@ -13,10 +14,20 @@ export default function ModalDeleteTransaction({
   setCurrentTransactions,
   loadUserStatement,
 }) {
+  const {
+    setOpenModalSuccess,
+    setSuccessMessage,
+    setLoadingProgress,
+    setMessageAlert,
+    setErrorAlert,
+    setSnackbarOpen,
+  } = useGlobal();
   const token = getItem('token');
 
   async function handleDeleteTransaction() {
     try {
+      setLoadingProgress(true);
+
       const response = await api.delete(`/transacao/${transaction_id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -43,9 +54,34 @@ export default function ModalDeleteTransaction({
       loadUserStatement();
 
       setOpenModalDeleteTransaction(false);
+      setSuccessMessage('Usuário excluído com sucesso!');
+      setOpenModalSuccess(true);
     } catch (error) {
-      console.log(error.response.message);
+      handleApiError(error);
+    } finally {
+      setLoadingProgress(false);
     }
+  }
+
+  function handleApiError(error) {
+    if (error.response.data === 'jwt expired') {
+      clear();
+      setMessageAlert('Sessão expirada, faça login novamente.');
+      setErrorAlert(true);
+      setSnackbarOpen(true);
+      return;
+    }
+
+    if (error.response.status >= 500) {
+      setMessageAlert('Erro interno, por favor tente novamente.');
+      setErrorAlert(true);
+      setSnackbarOpen(true);
+      return;
+    }
+
+    setMessageAlert(error.response.data);
+    setErrorAlert(true);
+    setSnackbarOpen(true);
   }
 
   return (

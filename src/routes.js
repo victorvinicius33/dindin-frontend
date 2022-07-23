@@ -2,6 +2,8 @@ import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
 import Main from './pages/Main';
+import LoadingProgress from './components/LoadingProgress';
+import useGlobal from './hooks/useGlobal';
 import { getItem } from './utils/localStorage';
 
 function ProtectedRoutes({ redirectTo }) {
@@ -11,14 +13,20 @@ function ProtectedRoutes({ redirectTo }) {
 }
 
 export default function MainRoutes() {
-  return (
-    <Routes>
-      <Route path='/' element={<SignIn />} />
-      <Route path='/sign-up' element={<SignUp />} />
+  const { loadingProgress } = useGlobal();
 
-      <Route element={<ProtectedRoutes redirectTo='/' />}>
-        <Route path='/main' element={<Main />} />
-      </Route>
-    </Routes>
+  return (
+    <>
+      <Routes>
+        <Route path='/' element={<SignIn />} />
+        <Route path='/sign-up' element={<SignUp />} />
+
+        <Route element={<ProtectedRoutes redirectTo='/' />}>
+          <Route path='/main' element={<Main />} />
+        </Route>
+      </Routes>
+
+      {loadingProgress && <LoadingProgress />}
+    </>
   );
 }

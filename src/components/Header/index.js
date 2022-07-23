@@ -1,19 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import './style.css';
-import { useNavigate } from 'react-router-dom';
 import Logo from '../../assets/logo.svg';
 import Profile from '../../assets/profile.svg';
 import Logout from '../../assets/logout.svg';
-import { getItem, clear } from '../../utils/localStorage';
+import ModalConfirmLogout from '../Modals/ModalConfirmLogout';
+import { getItem } from '../../utils/localStorage';
+import { useState } from 'react';
 
 export default function Header({ setOpenModalEditProfile }) {
-  const navigate = useNavigate();
   const userName = getItem('userName');
-
-  async function handleLogout() {
-    clear();
-    navigate('/');
-  }
+  const [openModalConfirmLogout, setOpenModalConfirmLogout] = useState(false);
 
   return (
     <header>
@@ -32,10 +28,15 @@ export default function Header({ setOpenModalEditProfile }) {
             src={Logout}
             alt='Logout'
             className='header__logout'
-            onClick={handleLogout}
+            onClick={() => setOpenModalConfirmLogout(true)}
           />
         </div>
       </div>
+      {openModalConfirmLogout && (
+        <ModalConfirmLogout
+          setOpenModalConfirmLogout={setOpenModalConfirmLogout}
+        />
+      )}
     </header>
   );
 }

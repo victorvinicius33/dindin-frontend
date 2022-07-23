@@ -4,8 +4,15 @@ import { useState } from 'react';
 import api from '../../services/api';
 import Logo from '../../assets/logo.svg';
 import { validationSignUpForm } from '../../validations/validationSignUpForm';
+import useGlobal from '../../hooks/useGlobal';
 
 function SignUp() {
+  const {
+    setLoadingProgress,
+    setMessageAlert,
+    setErrorAlert,
+    setSnackbarOpen,
+  } = useGlobal();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -30,6 +37,8 @@ function SignUp() {
     }
 
     try {
+      setLoadingProgress(true);
+
       const response = await api.post('/usuario', {
         name,
         email,
@@ -42,9 +51,16 @@ function SignUp() {
       handleClearForm();
       navigate('/');
     } catch (error) {
-      if (error.response.status < 500) {
-        setError(error.response.data.message);
+      if (error.response.status >= 500) {
+        setMessageAlert('Erro interno, por favor tente novamente.');
+        setErrorAlert(true);
+        setSnackbarOpen(true);
+        return;
       }
+
+      setError(error.response.data);
+    } finally {
+      setLoadingProgress(false);
     }
   }
 
