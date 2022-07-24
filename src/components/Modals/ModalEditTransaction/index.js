@@ -117,7 +117,7 @@ export default function ModalEditTransaction({
 
       setOpenModalEditTransaction(false);
 
-      setSuccessMessage('Usuário editado com sucesso!');
+      setSuccessMessage('Registro editado com sucesso!');
       setOpenModalSuccess(true);
     } catch (error) {
       handleApiError(error);

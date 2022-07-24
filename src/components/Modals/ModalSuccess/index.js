@@ -4,21 +4,22 @@ import useGlobal from '../../../hooks/useGlobal';
 import { useEffect } from 'react';
 
 export default function ModalSuccess() {
-  const { successMessage, openModalSuccess, setOpenModalSuccess } = useGlobal();
+  const { successMessage, openModalSuccess, setOpenModalSuccess, setSuccessMessage } = useGlobal();
 
   useEffect(() => {
     if (openModalSuccess) {
       function handleSuccessModal() {
         const closeSuccessModal = setTimeout(() => {
           setOpenModalSuccess(false);
+          setSuccessMessage('');
         }, 2000);
 
-        return () => closeSuccessModal(successMessage);
+        return () => clearTimeout(closeSuccessModal);
       }
 
       handleSuccessModal();
     }
-  }, [openModalSuccess, setOpenModalSuccess, successMessage]);
+  }, [openModalSuccess, setOpenModalSuccess, setSuccessMessage]);
 
   return (
     <div className='modal-success'>

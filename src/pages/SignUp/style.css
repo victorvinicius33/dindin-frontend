@@ -2,7 +2,7 @@
   width: 100%;
   min-height: 100vh;
 
-  padding: 95px 0;
+  padding-top: 30px;
 
   display: flex;
   justify-content: center;
@@ -29,12 +29,12 @@
 }
 
 .sign-up__form {
-  width: 513px;
+  width: 470px;
 
   display: flex;
   flex-direction: column;
 
-  padding: 60px 32px;
+  padding: 30px 32px;
 
   border-radius: 8px;
 
@@ -46,7 +46,7 @@
   font-size: 2.8rem;
 
   align-self: center;
-  margin-bottom: 48px;
+  margin-bottom: 18px;
   color: #7978d9;
 }
 
@@ -69,9 +69,9 @@
 }
 
 .sign-up__form input {
-  height: 63px;
+  height: 43px;
 
-  margin-bottom: 31px;
+  margin-bottom: 10px;
 
   padding-left: 15px;
 
@@ -84,21 +84,26 @@
 }
 
 .sign-up__form button {
-  all: unset;
   cursor: pointer;
-
+  
+  height: 43px;
   margin-top: 7px;
   margin-bottom: 8px;
-  padding: 17px 0;
 
   font-weight: 700;
   font-size: 1.4rem;
   text-align: center;
 
+  border: none;
   border-radius: 5px;
 
   background-color: #7978d9;
   color: #ffffff;
+  opacity: 1;
+}
+
+.sign-up__form button:hover {
+  opacity: 0.9;
 }
 
 .sign-up__form a {
@@ -112,10 +117,8 @@
 }
 
 .sign-up__error-message {
-  position: absolute;
-  bottom: 70px;
 
-  font-size: 12px;
+  font-size: 1.2rem;
 
   color: #ff0000;
 }
@@ -128,7 +131,12 @@
 }
 
 @media screen and (max-width: 768px) {
+  .sign-up {
+    padding-top: 60px;
+  }
+
   .sign-up__header {
+    top: 15px;
     left: auto;
   }
 
@@ -148,17 +156,20 @@
 @media screen and (max-width: 580px) {
   .sign-up__form {
     width: 300px;
-    padding: 40px 32px;
+    padding: 20px 32px;
   }
 
   .sign-up__form h2 {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
   }
 }
 
 @media screen and (max-width: 350px) {
+  .sign-up {
+    padding-top: 50px;
+  }
+
   .sign-up__form {
     width: 250px;
-    padding: 40px 32px;
   }
 }

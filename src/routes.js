@@ -3,7 +3,9 @@ import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
 import Main from './pages/Main';
 import LoadingProgress from './components/LoadingProgress';
+import ModalSuccess from './components/Modals/ModalSuccess';
 import useGlobal from './hooks/useGlobal';
+import AlertToast from './components/AlertToast';
 import { getItem } from './utils/localStorage';
 
 function ProtectedRoutes({ redirectTo }) {
@@ -13,7 +15,7 @@ function ProtectedRoutes({ redirectTo }) {
 }
 
 export default function MainRoutes() {
-  const { loadingProgress } = useGlobal();
+  const { loadingProgress, openModalSuccess } = useGlobal();
 
   return (
     <>
@@ -27,6 +29,8 @@ export default function MainRoutes() {
       </Routes>
 
       {loadingProgress && <LoadingProgress />}
+      {openModalSuccess && <ModalSuccess />}
+      <AlertToast />
     </>
   );
 }

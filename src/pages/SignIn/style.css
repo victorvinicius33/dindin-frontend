@@ -60,7 +60,6 @@
 
 .sign-in__left button,
 .sign-in__btn-submit {
-  all: unset;
   cursor: pointer;
 
   padding: 17px 0;
@@ -69,6 +68,8 @@
   font-weight: 700;
   font-size: 1.4rem;
   text-align: center;
+
+  border: none;
 
   background-color: #7978d9;
   color: #ffffff;

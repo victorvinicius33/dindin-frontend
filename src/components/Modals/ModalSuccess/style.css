@@ -15,9 +15,9 @@
 
   font-family: 'Rubik', sans-serif;
 
-  color: #3f3f55;
   background-color: rgba(145, 154, 150, 0.3);
   backdrop-filter: blur(4px);
+  color: #3f3f55;
 }
 
 .modal-success__container {

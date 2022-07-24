@@ -1,12 +1,13 @@
 .statement-summary__container {
   width: 100%;
-  min-width: 236px;
+  min-width: 200px;
+  max-width: 100%;
 
   font-family: 'Rubik', sans-serif;
 }
 
 .statement-summary__box {
-  padding: 26px 33px 21px 33px;
+  padding: 21px 33px;
 
   border-radius: 10px;
 

@@ -9,8 +9,6 @@ import ModalEditProfile from '../../components/Modals/ModalEditProfile/index';
 import ModalAddTransaction from '../../components/Modals/ModalAddTransaction/index';
 import ModalEditTransaction from '../../components/Modals/ModalEditTransaction';
 import ModalDeleteTransaction from '../../components/Modals/ModalDeleteTransaction';
-import ModalSuccess from '../../components/Modals/ModalSuccess';
-import AlertToast from '../../components/AlertToast';
 import useGlobal from '../../hooks/useGlobal';
 import api from '../../services/api';
 import { getItem, setItem, clear } from '../../utils/localStorage';
@@ -22,7 +20,6 @@ function Home() {
     setSnackbarOpen,
     setErrorAlert,
     setMessageAlert,
-    openModalSuccess,
   } = useGlobal();
   const token = getItem('token');
   const [defaultTransactions, setDefaultTransactions] = useState([]);
@@ -234,10 +231,6 @@ function Home() {
           loadUserStatement={loadUserStatement}
         />
       )}
-
-      {openModalSuccess && <ModalSuccess />}
-
-      <AlertToast />
     </div>
   );
 }

@@ -103,11 +103,18 @@ export default function TableTransactions({
       <tbody>
         {currentTransactions.map((transaction) => (
           <tr key={transaction.id}>
-            <td>{formatDate(transaction.date)}</td>
-            <td>{getDayOfTheWeek(transaction.date)}</td>
-            <td>{transaction.description ? transaction.description : '-'}</td>
-            <td>{getTransactionCategory(transaction.category_id)}</td>
+            <td data-label='Data'>{formatDate(transaction.date)}</td>
+            <td data-label='Dia da semana'>
+              {getDayOfTheWeek(transaction.date)}
+            </td>
+            <td data-label='Descrição'>
+              {transaction.description ? transaction.description : '-'}
+            </td>
+            <td data-label='Categoria'>
+              {getTransactionCategory(transaction.category_id)}
+            </td>
             <td
+              data-label='Valor'
               className={`table-transactions__transaction-amount${
                 transaction.transaction_type === 'entrada'
                   ? '--blue'

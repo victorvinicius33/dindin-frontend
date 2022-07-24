@@ -54,7 +54,7 @@ export default function ModalDeleteTransaction({
       loadUserStatement();
 
       setOpenModalDeleteTransaction(false);
-      setSuccessMessage('Usuário excluído com sucesso!');
+      setSuccessMessage('Registro excluído com sucesso!');
       setOpenModalSuccess(true);
     } catch (error) {
       handleApiError(error);
@@ -99,7 +99,7 @@ export default function ModalDeleteTransaction({
           src={AlertYellowIcon}
           alt='alerta'
         />
-        <h1>Tem certeza que deseja excluir essa transação?</h1>
+        <h1>Tem certeza que deseja excluir esse registro?</h1>
         <div className='modal-delete-transaction__btns'>
           <button
             className='modal-delete-transaction__btn-cancel'

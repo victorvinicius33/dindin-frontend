@@ -44,3 +44,53 @@ header {
 
   margin-left: 16px;
 }
+
+@media  screen and (max-width: 470px) {
+  header {
+    padding: 30px 40px;
+  }
+
+  .header__profile-name {
+    display: none;
+  }
+
+  .header__logo {
+    height: 35px;
+  }
+
+  .header__profile-area {
+    gap: 5px;
+  }
+
+  .header__profile-logo {
+    width: 46px;
+  }
+
+  .header__logout {
+    width: 20px;
+  }
+}
+
+@media  screen and (max-width: 350px) {
+  header {
+    height: 214px;
+    
+    padding: 30px 20px;
+  }
+
+  .header__logo {
+    height: 28px;
+  }
+
+  .header__profile-area {
+    gap: 0;
+  }
+
+  .header__profile-logo {
+    width: 36px;
+  }
+
+  .header__logout {
+    width: 18px;
+  }
+} 

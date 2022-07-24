@@ -1,11 +1,4 @@
 .edit-transaction {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(61, 61, 61, 0.48);
-
   width: 100%;
   min-height: 100vh;
 
@@ -13,7 +6,16 @@
   align-items: center;
   justify-content: center;
 
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
   font-family: 'Rubik';
+
+  background-color: rgba(145, 154, 150, 0.3);
+  backdrop-filter: blur(4px);
 }
 
 .edit-transaction__container {
@@ -192,4 +194,17 @@
   font-size: 1.2rem;
 
   color: #ff0000;
+}
+
+@media screen and (max-width: 500px) {
+  .edit-transaction__form input {
+    margin-bottom: 7%;
+  }
+  .edit-transaction__form button {
+    margin-top: 10%;
+  }
+
+  .edit-transaction__container {
+    padding: 0 30px;
+  }
 }

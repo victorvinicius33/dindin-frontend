@@ -12,6 +12,8 @@ function SignUp() {
     setMessageAlert,
     setErrorAlert,
     setSnackbarOpen,
+    setOpenModalSuccess,
+    setSuccessMessage,
   } = useGlobal();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -31,7 +33,7 @@ function SignUp() {
       password,
       repeatPassword,
     });
-    
+
     if (formValidation.error) {
       return setError(formValidation.errorMessage);
     }
@@ -49,6 +51,8 @@ function SignUp() {
       if (response.status > 204) return;
 
       handleClearForm();
+      setSuccessMessage('Usuário cadastrado com sucesso!');
+      setOpenModalSuccess(true);
       navigate('/');
     } catch (error) {
       if (error.response.status >= 500) {
