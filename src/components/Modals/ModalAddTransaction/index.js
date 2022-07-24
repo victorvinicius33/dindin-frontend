@@ -95,7 +95,7 @@ export default function ModalAddTransaction({
         return;
       }
 
-      setError(error.response.data);
+      setError(error.response.data.message);
     } finally {
       setLoadingProgress(false);
     }

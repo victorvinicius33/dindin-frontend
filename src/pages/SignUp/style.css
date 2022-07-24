@@ -117,8 +117,7 @@
 }
 
 .sign-up__error-message {
-
-  font-size: 1.2rem;
+  font-size: 1.6rem;
 
   color: #ff0000;
 }
@@ -145,10 +144,6 @@
 
   .sign-up__form input {
     margin-bottom: 20px;
-  }
-
-  .sign-up__error-message {
-    bottom: 60px;
   }
 }
 

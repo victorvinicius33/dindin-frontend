@@ -89,7 +89,7 @@ export default function ModalEditProfile({
         return;
       }
 
-      setError(error.response.data);
+      setError(error.response.data.message);
     } finally {
       setLoadingProgress(false);
     }

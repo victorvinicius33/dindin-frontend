@@ -68,7 +68,7 @@ function SignIn() {
         return;
       }
 
-      setError(error.response.data);
+      setError(error.response.data.message);
     } finally {
       setLoadingProgress(false);
     }
@@ -114,7 +114,6 @@ function SignIn() {
             />
 
             {error && <span className='sign-in__error-message'>{error}</span>}
-            <span className='sign-in__error-message'>{error}</span>
             <button className='sign-in__btn-submit'>Entrar</button>
           </form>
           <Link className='sign-in__link-to-sign-up' to='/sign-up'>

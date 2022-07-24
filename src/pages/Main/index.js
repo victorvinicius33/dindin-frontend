@@ -150,7 +150,7 @@ function Home() {
       return;
     }
 
-    setMessageAlert(error.response.data);
+    setMessageAlert(error.response.data.message);
     setErrorAlert(true);
     setSnackbarOpen(true);
   }

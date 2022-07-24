@@ -144,11 +144,7 @@
 }
 
 .sign-in__error-message {
-  position: absolute;
-  bottom: 140px;
-  left: 32px;
-
-  font-size: 1.4rem;
+  font-size: 1.6rem;
 
   color: #ff0000;
 }
@@ -206,10 +202,6 @@
   .sign-in__link-to-sign-up {
     display: block;
   }
-
-  .sign-in__error-message {
-    bottom: 120px;
-  }
 }
 
 @media screen and (max-width: 386px) {
@@ -218,9 +210,5 @@
   }
   .sign-in__right {
     padding: 24px 16px;
-  }
-
-  .sign-in__error-message {
-    bottom: 130px;
   }
 }
