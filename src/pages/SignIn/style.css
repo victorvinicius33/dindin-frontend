@@ -4,7 +4,7 @@
 
   display: flex;
   align-items: center;
-  
+
   font-family: 'Rubik', sans-serif;
 
   background: linear-gradient(
@@ -101,11 +101,13 @@
 }
 
 .sign-in__right h2 {
+  margin-bottom: 48px;
+
   font-weight: 500;
   font-size: 2.8rem;
 
   align-self: center;
-  margin-bottom: 48px;
+
   color: #7978d9;
 }
 
@@ -115,9 +117,11 @@
 }
 
 .sign-in__right label {
+  margin-bottom: 8px;
+
   font-weight: 400;
   font-size: 1.8rem;
-  margin-bottom: 8px;
+
   color: #484848;
 }
 
@@ -128,7 +132,7 @@
   padding-left: 15px;
 
   font-size: 2rem;
-  
+
   border: 1px solid #555555;
   border-radius: 5px;
 
@@ -144,21 +148,27 @@
   bottom: 140px;
   left: 32px;
 
-  color: #ff0000;
   font-size: 1.4rem;
+
+  color: #ff0000;
 }
 
 .sign-in__link-to-sign-up {
   display: none;
 
   padding-top: 10px;
-  
+
   font-size: 1.6rem;
   text-align: center;
-
   font-weight: 700;
 
   color: #7978d9;
+}
+
+@media screen and (max-width: 1024px) {
+  .sign-in__logo {
+    width: 180px;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -168,8 +178,7 @@
   }
 
   .sign-in__logo {
-    width: 200px;
-    top: 20px;
+    top: 15px;
     left: auto;
   }
 
@@ -183,11 +192,14 @@
     padding: 32px 32px;
   }
 
-  .sign-in__right input{
+  .sign-in__right input {
+    height: 43px;
+
     margin-bottom: 15px;
-  } 
+  }
 
   .sign-in__btn-submit {
+    padding: 15px 0;
     margin-top: 20px;
   }
 
@@ -201,6 +213,13 @@
 }
 
 @media screen and (max-width: 386px) {
+  .sign-in__main {
+    padding: 0 5%;
+  }
+  .sign-in__right {
+    padding: 24px 16px;
+  }
+
   .sign-in__error-message {
     bottom: 130px;
   }
