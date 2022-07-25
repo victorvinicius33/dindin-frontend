@@ -29,8 +29,10 @@ function Home() {
   const [profileData, setProfileData] = useState({});
   const [openModalAddTransaction, setOpenModalAddTransaction] = useState(false);
   const [openModalEditProfile, setOpenModalEditProfile] = useState(false);
-  const [openModalDeleteTransaction, setOpenModalDeleteTransaction] = useState(false);
-  const [openModalEditTransaction, setOpenModalEditTransaction] = useState(false);
+  const [openModalDeleteTransaction, setOpenModalDeleteTransaction] =
+    useState(false);
+  const [openModalEditTransaction, setOpenModalEditTransaction] =
+    useState(false);
   const [transactionId, setTransactionId] = useState(null);
 
   useEffect(() => {
@@ -154,6 +156,26 @@ function Home() {
     setErrorAlert(true);
     setSnackbarOpen(true);
   }
+
+  useEffect(() => {
+    if (
+      openModalAddTransaction ||
+      openModalEditProfile ||
+      openModalDeleteTransaction ||
+      openModalEditTransaction
+    ) {
+      document.documentElement.style.overflow = 'hidden';
+      document.body.scroll = 'no';
+    } else {
+      document.documentElement.style.overflow = 'auto';
+      document.body.scroll = 'yes';
+    }
+  }, [
+    openModalAddTransaction,
+    openModalEditProfile,
+    openModalDeleteTransaction,
+    openModalEditTransaction,
+  ]);
 
   return (
     <div className='main__container'>

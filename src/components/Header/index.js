@@ -5,11 +5,21 @@ import Profile from '../../assets/profile.svg';
 import Logout from '../../assets/logout.svg';
 import ModalConfirmLogout from '../Modals/ModalConfirmLogout';
 import { getItem } from '../../utils/localStorage';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Header({ setOpenModalEditProfile }) {
   const userName = getItem('userName');
   const [openModalConfirmLogout, setOpenModalConfirmLogout] = useState(false);
+
+  useEffect(() => {
+    if (openModalConfirmLogout) {
+      document.documentElement.style.overflow = 'hidden';
+      document.body.scroll = 'no';
+    } else {
+      document.documentElement.style.overflow = 'auto';
+      document.body.scroll = 'yes';
+    }
+  }, [openModalConfirmLogout]);
 
   return (
     <header>
