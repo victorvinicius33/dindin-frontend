@@ -1,49 +1,3 @@
-.add-transaction {
-  width: 100%;
-  min-height: 100vh;
-
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(61, 61, 61, 0.48);
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-family: 'Rubik';
-
-  background-color: rgba(145, 154, 150, 0.3);
-  backdrop-filter: blur(4px);
-}
-
-.add-transaction__container {
-  width: 80%;
-  max-width: 500px;
-  height: 600px;
-  max-height: 95vh;
-
-  overflow-y: scroll;
-
-  position: relative;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  padding: 0 50px;
-  border-radius: 20px;
-
-  background-color: #ffffff;
-}
-
-.add-transaction__container::-webkit-scrollbar {
-  display: none;
-}
-
 .add-transaction__header {
   width: 100%;
 
@@ -197,16 +151,16 @@
   color: #ff0000;
 }
 
-
 @media screen and (max-width: 500px) {
-  .add-transaction__form input {
-    margin-bottom: 7%;
-  }
-  .add-transaction__form button {
-    margin-top: 10%;
+  .add-transaction__header h1 {
+    margin-bottom: 5%;
   }
 
-  .add-transaction__container {
-    padding: 0 30px;
+  .add-transaction__form input {
+    margin-bottom: 5%;
+  }
+
+  .add-transaction__form button {
+    margin-top: 5%;
   }
 }

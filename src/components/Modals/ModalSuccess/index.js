@@ -22,8 +22,8 @@ export default function ModalSuccess() {
   }, [openModalSuccess, setOpenModalSuccess, setSuccessMessage]);
 
   return (
-    <div className='modal-success'>
-      <div className='modal-success__container'>
+    <div className='modal-backdrop'>
+      <div className='modal-message__container'>
         <img src={SuccessGreen} alt='sucesso' />
         <h1 className='modal-success__message'>{successMessage}</h1>
       </div>

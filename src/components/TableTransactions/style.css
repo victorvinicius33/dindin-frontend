@@ -14,7 +14,6 @@
 .table-transactions th,
 .table-transactions td {
   padding: 20px 5px;
-  max-width: 110px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -22,8 +21,7 @@
 
 .table-transactions th,
 .table-transactions td {
-  font-family: 'Rubik', sans-serif;
-  max-width: 1fr;
+  font-family: var(--fs-rubik);
   text-align: center;
 }
 
@@ -46,7 +44,6 @@
 
 .table-transactions__transaction-amount--blue,
 .table-transactions__transaction-amount--yellow {
-  font-family: 'Lato';
   font-style: normal;
   font-weight: 700;
   font-size: 1.4rem;

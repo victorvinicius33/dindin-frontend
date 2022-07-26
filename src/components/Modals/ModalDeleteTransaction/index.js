@@ -85,8 +85,8 @@ export default function ModalDeleteTransaction({
   }
 
   return (
-    <div className='modal-delete-transaction'>
-      <div className='modal-delete-transaction__container'>
+    <div className='modal-backdrop'>
+      <div className='modal-delete-transaction__container modal-confirm-operation'>
         <button className='modal-delete-transaction__btn-close'>
           <img
             onClick={() => setOpenModalDeleteTransaction(false)}

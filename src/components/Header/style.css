@@ -28,7 +28,7 @@ header {
 }
 
 .header__profile-name {
-  font-family: 'Rubik';
+  font-family: var(--fs-rubik);
   font-style: normal;
   font-weight: 700;
   font-size: 1.4rem;

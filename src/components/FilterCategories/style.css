@@ -40,7 +40,7 @@
   padding-left: 4px;
   margin-bottom: 20px;
 
-  font-family: 'Rubik';
+  font-family: var(--fs-rubik);
   font-style: normal;
   font-weight: 500;
   font-size: 1.2rem;
@@ -90,43 +90,34 @@
   height: 6px;
 }
 
-.filter-transactions__clear-filter {
-  cursor: pointer;
-
-  margin-top: 18px;
-  padding: 8px 12px;
-
-  border-radius: 10px;
-  border: none;
-
-  font-family: 'Lato';
-  font-weight: 700;
-  font-size: 1.2rem;
-  line-height: 1.4rem;
-
-  background-color: #fafafa;
-  box-shadow: 0px 2px 11px rgba(0, 0, 0, 0.1);
-}
-
+.filter-transactions__clear-filter,
 .filter-transactions__apply-filter {
   cursor: pointer;
 
-  padding: 8px 12px;
-  margin-left: 18px;
   margin-top: 18px;
+  padding: 8px 12px;
 
   border: none;
   border-radius: 10px;
+  box-shadow: 0px 2px 11px rgba(0, 0, 0, 0.1);
 
-  font-family: 'Lato';
+  font-family: var(--fs-lato);
   font-style: normal;
   font-weight: 700;
   font-size: 1.2rem;
   line-height: 1.4rem;
+}
+
+.filter-transactions__clear-filter {
+  background-color: #fafafa;
+  color: #000000;
+}
+
+.filter-transactions__apply-filter {
+  margin-left: 18px;
 
   background-color: #7978d9;
   color: #ffffff;
-  box-shadow: 0px 2px 11px rgba(0, 0, 0, 0.1);
 }
 
 .selected {

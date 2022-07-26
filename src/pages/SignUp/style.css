@@ -19,7 +19,7 @@
   background-position: center;
   background-repeat: no-repeat;
 
-  font-family: 'Rubik', sans-serif;
+  font-family: var(--fs-rubik);
 }
 
 .sign-up__header {
@@ -100,6 +100,8 @@
   background-color: #7978d9;
   color: #ffffff;
   opacity: 1;
+
+  font-family: var(--fs-rubik);
 }
 
 .sign-up__form button:hover {

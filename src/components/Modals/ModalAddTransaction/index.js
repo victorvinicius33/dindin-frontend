@@ -102,8 +102,8 @@ export default function ModalAddTransaction({
   }
   
   return (
-    <div className='add-transaction'>
-      <div className='add-transaction__container'>
+    <div className='modal-backdrop'>
+      <div className='modal-form__container'>
         <div className='add-transaction__header'>
           <h1>Adicionar Registro</h1>
           <img

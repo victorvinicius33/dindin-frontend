@@ -181,8 +181,8 @@ export default function ModalEditTransaction({
   }
 
   return (
-    <div className='edit-transaction'>
-      <div className='edit-transaction__container'>
+    <div className='modal-backdrop'>
+      <div className='modal-form__container'>
         <div className='edit-transaction__header'>
           <h1>Editar Registro</h1>
           <img

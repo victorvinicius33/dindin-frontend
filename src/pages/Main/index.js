@@ -20,6 +20,7 @@ function Home() {
     setSnackbarOpen,
     setErrorAlert,
     setMessageAlert,
+    openModalSuccess
   } = useGlobal();
   const token = getItem('token');
   const [defaultTransactions, setDefaultTransactions] = useState([]);
@@ -162,7 +163,7 @@ function Home() {
       openModalAddTransaction ||
       openModalEditProfile ||
       openModalDeleteTransaction ||
-      openModalEditTransaction
+      openModalEditTransaction || openModalSuccess
     ) {
       document.documentElement.style.overflow = 'hidden';
       document.body.scroll = 'no';
@@ -175,6 +176,7 @@ function Home() {
     openModalEditProfile,
     openModalDeleteTransaction,
     openModalEditTransaction,
+    openModalSuccess
   ]);
 
   return (

@@ -14,8 +14,8 @@ export default function ModalConfirmLogout({ setOpenModalConfirmLogout }) {
   }
 
   return (
-    <div className='modal-confirm-logout'>
-      <div className='modal-confirm-logout__container'>
+    <div className='modal-backdrop'>
+      <div className='modal-confirm-logout__container modal-confirm-operation'>
         <button className='modal-confirm-logout__btn-close'>
           <img
             onClick={() => setOpenModalConfirmLogout(false)}

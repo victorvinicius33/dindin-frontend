@@ -96,8 +96,8 @@ export default function ModalEditProfile({
   }
 
   return (
-    <div className='edit-profile'>
-      <div className='edit-profile__container'>
+    <div className='modal-backdrop'>
+      <div className='modal-form__container'>
         <div className='edit-profile__header'>
           <h1>Editar Perfil</h1>
           <img
