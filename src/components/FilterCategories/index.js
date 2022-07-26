@@ -41,10 +41,12 @@ export default function FilterCategories({
     });
 
     if (!selectedCategories.length) {
-      const transactionsOrderByAscendingDate = defaultTransactions.sort((a, b) => {
-        return new Date(a.date) - new Date(b.date);
-      });
-  
+      const transactionsOrderByAscendingDate = defaultTransactions.sort(
+        (a, b) => {
+          return new Date(a.date) - new Date(b.date);
+        }
+      );
+
       return setCurrentTransactions([...transactionsOrderByAscendingDate]);
     }
 

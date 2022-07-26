@@ -79,7 +79,7 @@ export default function TableTransactions({
 
   return (
     <table className='table-transactions'>
-      <thead>
+      <thead className='table-transactions__header-desktop'>
         <tr>
           <th onClick={handleOrderByDate}>
             Data{' '}
@@ -100,7 +100,24 @@ export default function TableTransactions({
           <th></th>
         </tr>
       </thead>
+      <thead>
+      <tr className='table-transactions__header-mobile'>
+          <th onClick={handleOrderByDate}>
+            Ordenar por Data{' '}
+            <img
+              src={UpArrow}
+              alt='seta'
+              className={
+                sortByDate === 'descending'
+                  ? 'table-transactions__descending-arrow'
+                  : ''
+              }
+            />
+          </th>
+        </tr>
+      </thead>
       <tbody>
+        
         {currentTransactions.map((transaction) => (
           <tr key={transaction.id}>
             <td data-label='Data'>{formatDate(transaction.date)}</td>
