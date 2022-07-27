@@ -20,8 +20,8 @@
   cursor: pointer;
 
   position: absolute;
-  top: 25px;
-  right: 25px;
+  top: 20px;
+  right: 20px;
 }
 
 .edit-transaction__select-type {
@@ -157,6 +157,9 @@
   }
 
   .edit-transaction__header h1 {
-    font-size: 2.8rem;
+    font-size: 2.6rem;
+  }
+  .edit-transaction__form label {
+    font-size: 2rem;
   }
 }

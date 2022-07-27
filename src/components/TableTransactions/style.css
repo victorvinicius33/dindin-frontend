@@ -16,18 +16,18 @@
 
   max-width: fit-content;
 
-  padding: 0 8px;
-
   background-color: #fafafa;
   box-shadow: 0px 2px 11px rgba(0, 0, 0, 0.1);
 }
 
 .table-transactions__header-mobile th {
+  height: 10px;
+
+  padding: 20px 12px !important;
+
   font-size: 2rem;
   font-weight: 600;
   color: #443b3b;
-
-  height: 10px;
 }
 
 .table-transactions th,
