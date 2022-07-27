@@ -1,6 +1,9 @@
 .modal-backdrop {
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
+  max-height: 100vh;
+
+  overflow-y: scroll;
 
   position: fixed;
   top: 0;
@@ -81,6 +84,10 @@
 }
 
 @media screen and (max-width: 500px) {
+  .modal-backdrop {
+    padding: 40px 0;
+  }
+
   .modal-form__container {
     margin-top: 20%;
     padding: 0 30px;
