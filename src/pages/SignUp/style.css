@@ -4,6 +4,8 @@
 
   padding-top: 30px;
 
+  overflow-y: scroll;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -60,7 +62,7 @@
 }
 
 .sign-up__form label {
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
 
   font-weight: 400;
   font-size: 1.8rem;
@@ -71,7 +73,7 @@
 .sign-up__form input {
   height: 43px;
 
-  margin-bottom: 10px;
+  margin-bottom: 5%;
 
   padding-left: 15px;
 
@@ -152,7 +154,7 @@
 @media screen and (max-width: 580px) {
   .sign-up__form {
     width: 300px;
-    padding: 20px 16px;
+    padding: 20px 20px;
     margin: 20px 0;
   }
 
