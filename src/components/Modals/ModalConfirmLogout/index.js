@@ -8,8 +8,10 @@ export default function ModalConfirmLogout({ setOpenModalConfirmLogout }) {
   const navigate = useNavigate();
 
   function handleLogout() {
-    clear();
+    document.documentElement.style.overflow = 'auto';
+    document.body.scroll = 'yes';
     setOpenModalConfirmLogout(false);
+    clear();
     navigate('/');
   }
 
