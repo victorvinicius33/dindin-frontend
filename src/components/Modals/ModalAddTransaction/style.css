@@ -5,7 +5,7 @@
   justify-content: space-between;
   align-items: center;
 
-  margin-top: 2.5rem;
+  margin-top: 10%;
   margin-bottom: 5%;
 }
 
@@ -31,7 +31,7 @@
   justify-content: center;
   align-items: center;
 
-  margin-bottom: 2rem;
+  margin-bottom: 5%;
 }
 
 .add-transaction__select-type button {
@@ -81,7 +81,7 @@
 }
 
 .add-transaction__form label {
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 
   font-weight: 500;
   font-size: 2.4rem;
@@ -94,7 +94,7 @@
   height: 40px;
 
   padding: 0 15px;
-  margin-bottom: 2%;
+  margin-bottom: 5%;
 
   border-radius: 5px;
   border: 1px solid #484848;
@@ -108,7 +108,7 @@
   height: 40px;
 
   padding: 0 15px;
-  margin-bottom: 2%;
+  margin-bottom: 5%;
 
   border-radius: 5px;
   border: 1px solid #484848;
@@ -131,7 +131,7 @@
   align-self: center;
 
   margin-top: 5%;
-  margin-bottom: 5%;
+  margin-bottom: 10%;
   padding: 12px 0;
 
   border: none;
@@ -152,15 +152,11 @@
 }
 
 @media screen and (max-width: 500px) {
+  .add-transaction__header {
+    margin-top: 15%;
+  }
+
   .add-transaction__header h1 {
-    margin-bottom: 5%;
-  }
-
-  .add-transaction__form input {
-    margin-bottom: 5%;
-  }
-
-  .add-transaction__form button {
-    margin-top: 5%;
+    font-size: 2.8rem;
   }
 }

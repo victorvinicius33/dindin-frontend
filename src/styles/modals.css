@@ -20,10 +20,6 @@
 .modal-form__container {
   width: 80%;
   max-width: 500px;
-  height: 600px;
-  max-height: 95vh;
-
-  overflow-y: scroll;
 
   position: relative;
 
@@ -40,21 +36,11 @@
   font-family: var(--fs-rubik);
 }
 
-.modal-form__container::-webkit-scrollbar {
-  display: none;
-}
-
-@media screen and (max-width: 500px) {
-  .modal-form__container {
-    padding: 0 30px;
-  }
-}
-
-
 .modal-confirm-operation {
   width: 80%;
-  min-height: 400px;
+  height: 400px;
   max-width: 600px;
+  max-height: 50%;
 
   position: relative;
 
@@ -92,4 +78,19 @@
   background-color: white;
 
   font-family: var(--fs-rubik);
+}
+
+@media screen and (max-width: 500px) {
+  .modal-form__container {
+    margin-top: 20%;
+    padding: 0 30px;
+  }
+
+  .modal-message__container {
+    margin-top: 20%;
+  }
+
+  .modal-confirm-operation {
+    margin-top: 20%;
+  }
 }

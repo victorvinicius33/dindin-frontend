@@ -62,3 +62,16 @@
   background-color: #acd9c5;
   color: #034a2a;
 }
+
+@media screen and (max-width: 500px) {
+  .modal-delete-transaction__alert-icon {
+    width: 120px;
+    height: 120px;
+  
+    margin-bottom: 13px;
+  }
+
+  .modal-delete-transaction__container h1 {
+    font-size: 1.6rem;
+  }
+}
