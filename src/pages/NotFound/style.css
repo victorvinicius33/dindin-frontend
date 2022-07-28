@@ -1,0 +1,149 @@
+.not-found__container {
+  width: 100%;
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 80px;
+
+  background: linear-gradient(
+      180deg,
+      rgba(5, 237, 227, 0.5) 0%,
+      rgba(100, 95, 251, 0.5) 100%,
+      rgba(100, 95, 251, 0.5) 100%
+    ),
+    url(../../assets/background.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.not-found__message {
+  width: 70%;
+
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+}
+
+.not-found__message img {
+  width: 140px;
+}
+
+.not-found__message h1 {
+  text-align: center;
+  font-family: var(--fs-rubik);
+  font-weight: 500;
+  font-size: 5.2rem;
+  line-height: 130%;
+
+  color: #ffffff;
+}
+
+.not-found__redirect {
+  width: 70%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 40px;
+}
+
+.not-found__redirect-login,
+.not-found__redirect-signup {
+  width: 50%;
+  height: 120px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 20px;
+
+  border-radius: 30px;
+
+  text-align: center;
+
+  background-color: #ffffff;
+}
+
+.not-found__redirect-login h2,
+.not-found__redirect-signup h2 {
+  font-family: var(--fs-rubik);
+  font-weight: 700;
+  font-size: 2rem;
+  line-height: 130%;
+
+  color: #fa8c10;
+}
+
+.not-found__redirect-login button,
+.not-found__redirect-signup button {
+  cursor: pointer;
+
+  width: 120px;
+  height: 40px;
+
+  border-radius: 5px;
+  border: none;
+
+  font-family: var(--fs-rubik);
+  font-weight: 700;
+  font-size: 1.4rem;
+
+  background-color: #7978d9;
+  color: #ffffff;
+  opacity: 1;
+}
+
+.not-found__redirect-login button:hover,
+.not-found__redirect-signup button:hover {
+  opacity: 0.9;
+}
+
+@media screen and (max-width: 900px) {
+  .not-found__container {
+    gap: 40px;
+  }
+
+  .not-found__redirect {
+    flex-direction: column;
+  }
+
+  .not-found__redirect-login,
+  .not-found__redirect-signup {
+    width: 70%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .not-found__message img {
+    width: 100px;
+  }
+
+  .not-found__message h1 {
+    font-size: 4rem;
+  }
+
+  .not-found__redirect-login,
+  .not-found__redirect-signup {
+    width: 100%;
+
+    gap: 10px;
+  }
+
+  .not-found__message,
+  .not-found__redirect {
+    width: 90%;
+  }
+}

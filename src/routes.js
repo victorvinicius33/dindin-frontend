@@ -2,6 +2,7 @@ import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
 import Main from './pages/Main';
+import NotFound from './pages/NotFound';
 import LoadingProgress from './components/LoadingProgress';
 import ModalSuccess from './components/Modals/ModalSuccess';
 import useGlobal from './hooks/useGlobal';
@@ -26,6 +27,9 @@ export default function MainRoutes() {
         <Route element={<ProtectedRoutes redirectTo='/' />}>
           <Route path='/main' element={<Main />} />
         </Route>
+
+        <Route path='*' element={<NotFound />} />
+        <Route path='/notfound' element={<NotFound />} />
       </Routes>
 
       {loadingProgress && <LoadingProgress />}
